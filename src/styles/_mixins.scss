@@ -1,0 +1,20 @@
+@use './variables' as variables;
+
+@mixin on-tablet {
+  @media (min-width: variables.$tablet-width) {
+    @content;
+  }
+}
+
+@mixin on-desktop {
+  @media (min-width: variables.$desktop-width) {
+    @content;
+  }
+}
+
+@mixin hover($_property, $_toValue) {
+  transition: #{$_property} 0.3s;
+  &:hover {
+    #{$_property}: $_toValue;
+  }
+}
