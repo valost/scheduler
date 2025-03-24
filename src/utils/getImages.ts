@@ -1,4 +1,4 @@
-const IMAGE_BASE_PATH = '/public/img';
+const IMAGE_BASE_PATH = '/scheduler/public/img';
 
 const getImages = (name: string): string => {
   return `${IMAGE_BASE_PATH}/${name}.png`;
