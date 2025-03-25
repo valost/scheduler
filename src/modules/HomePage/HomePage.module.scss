@@ -9,13 +9,15 @@
   flex-direction: column;
   align-items: center;
   gap: 10px;
-    min-height: 100vh;
+  min-height: 100vh;
   overflow-y: auto;
 
   @include mixins.on-desktop {
     padding: 100px;
     flex-direction: row;
+    flex-wrap: wrap;
     gap: 20px;
+    justify-content: center;
   }
 }
 
@@ -24,7 +26,8 @@
 // }
 
 .locationCard {
-  width: 100%;
+  // width: 100%;
+  width: 360px;
   height: 270px;
   // height: calc((100vh - 40px) / 3); 
   padding: 20px;
