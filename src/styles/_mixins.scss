@@ -7,7 +7,7 @@
 }
 
 @mixin on-desktop {
-  @media (min-width: variables.$desktop-width) {
+  @media (min-width: variables.$laptop-width) {
     @content;
   }
 }
