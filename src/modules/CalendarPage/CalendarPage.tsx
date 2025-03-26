@@ -9,14 +9,21 @@ dayjs.locale('uk');
 export const CalendarPage = () => {
   const [currentMonth, setCurrentMonth] = useState(dayjs().startOf('month'));
   
-  // const daysInMonth = displayed
+  const daysInMonth = currentMonth.daysInMonth();
+  const firstDayOfMonth = currentMonth.startOf('month').day();
+  const firstDayOffset = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1;
+  const daysArray = Array.from({ length: daysInMonth }, (_, i) => i + 1);
+  const calendarDays = [
+    ...Array(firstDayOffset).fill(null),
+    ...daysArray
+  ];
 
   return (
     <div className={styles.page}>
       <div className={styles.header}>
         <Link to="/" className={styles.buttonBack}>Назад</Link>
 
-        <h2 className={styles.title}>Березень 2025</h2>
+        <h2 className={styles.title}>{currentMonth.format('MMMM YYYY')}</h2>
 
         <button className={styles.button}>Тиждень</button>
       </div>
@@ -31,7 +38,23 @@ export const CalendarPage = () => {
         <div className={styles.weekend}>Нд</div>
       </div>
 
-      <div className={styles.days}></div>
+      <div className={styles.days}>
+        {calendarDays.map((day, index) => (
+            <div 
+              key={index}
+              className={`${styles.day} ${
+                day === null ? styles.empty :
+                index % 7 === 5 || index % 7 === 6 ? styles.weekend : 
+                styles.workday
+              } ${
+                day === dayjs().date() && currentMonth.isSame(dayjs(), 'month') ? 
+                styles.currentDay : ''
+              }`}
+            >
+              {day || ''}
+            </div>
+          ))}
+      </div>
     </div>
   )
 }

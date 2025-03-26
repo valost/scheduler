@@ -1,5 +1,5 @@
-const IMAGE_BASE_PATH = '/scheduler/img';
-const ICONS_BASE_PATH = '/scheduler/img/icons';
+const IMAGE_BASE_PATH = '/img';
+const ICONS_BASE_PATH = '/img/icons';
 
 const getImages = (name: string): string => {
   return `${IMAGE_BASE_PATH}/${name}.png`;

@@ -1,12 +1,11 @@
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
-import { App } from './App';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { CalendarPage } from "./modules/CalendarPage/CalendarPage";
 import { HomePage } from "./modules/HomePage/HomePage";
 
-export const Root = () => (
+export const Routing = () => (
   <Router>
     <Routes>
-      <Route path="/" element={<App />}>
+      <Route path='/'>
         <Route index element={<HomePage />}/>
         <Route path="calendar" element={<CalendarPage />}/>
       </Route>
@@ -14,4 +13,4 @@ export const Root = () => (
   </Router>
 )
 
-export default Root;
+export default Routing;
