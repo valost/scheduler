@@ -44,8 +44,8 @@ export const CalendarPage = () => {
               key={index}
               className={`${styles.day} ${
                 day === null ? styles.empty :
-                index % 7 === 5 || index % 7 === 6 ? styles.weekend : 
-                styles.workday
+                index % 7 === 5 || index % 7 === 6 ? styles.weekendTile : 
+                styles.workdayTile
               } ${
                 day === dayjs().date() && currentMonth.isSame(dayjs(), 'month') ? 
                 styles.currentDay : ''
