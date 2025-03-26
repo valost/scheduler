@@ -59,8 +59,12 @@
 
 .locationName {
   @include typography.date-numbers-mobile;
+
+  margin: 0;
 }
 
 .locationAddress {
  @include typography.event-details-mobile;
+
+ margin: 0;
 }
