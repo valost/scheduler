@@ -4,6 +4,7 @@
 
 .page {
   width: 100vw;
+  min-height: 100vh;
   padding: 10px;
   display: flex;
   flex-direction: column;
@@ -40,7 +41,51 @@
 }
 
 .weekdays {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  text-align: center;
+}
+
+.workday {
+  
+}
+
+.weekend {
+  
+}
+
+.days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  text-align: center;
+}
+
+.day {
+  padding: 8px;
+  text-align: center;
+  background-color: #fff;
+  border: 1px solid variables.$grey-background;
+
+  @include mixins.on-desktop {
+    text-align: right;
+    height: 64px;
+  }
+}
+
+.currentDay {
+  background-color: variables.$today-highlight;
+}
+
+.empty {
+  border: none;
+}
+
+.workdayTile {
+  
+}
+
+.weekendTile {
+  background-color: variables.$grey-background;
 }
