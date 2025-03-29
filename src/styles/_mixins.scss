@@ -18,3 +18,9 @@
     #{$_property}: $_toValue;
   }
 }
+
+@mixin focus($_property, $_toValue) {
+  &:focus {
+    #{$_property}: $_toValue;
+  }
+}

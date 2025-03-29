@@ -9,35 +9,77 @@
   display: flex;
   flex-direction: column;
   gap: 14px;
+
+  @include mixins.on-desktop {
+    padding: 40px;
+  }
+}
+
+.title {
+  margin-block: 0;
 }
 
 .header {
   width: 100%;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
 
   @include typography.month-header-mobile;
 }
 
-.buttonBack {
-  height: 32px;
-  padding: 10px;
-  color: variables.$near-black-text;
-  border: 1px solid black;
+.headerTop {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  border-radius: 7px;
+}
+
+.headerBottom {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 }
 
 .button {
   height: 32px;
-  padding: 10px;
+  padding-inline: 10px;
   background-color: variables.$white-background;
-  border: 1px solid black;
+  border: 1px solid variables.$grey-background;
   display: flex;
   align-items: center;
-  
+
+  @include mixins.hover(box-shadow, 0px 4px 10px 0px rgba(21, 71, 15, 0.3));
+  @include mixins.focus(outline, none);
+  @include mixins.hover(border, none);
+}
+
+.buttonArrow {
+  padding-inline: 10px;
+  display: flex;
+  background-color: variables.$white-background;
+  border: none;
+  outline: none;
+
+  @include mixins.hover(border, none);
+  @include mixins.focus(outline, none);
+}
+
+.arrow {
+  height: 16px;
+  width: 16px;
+}
+
+.buttonBack {
+  height: 32px;
+  padding-inline: 10px;
+  color: variables.$near-black-text;
+  border: 1px solid variables.$grey-background;
+  display: flex;
+  align-items: center;
+  border-radius: 7px;
+
+  @include mixins.hover(box-shadow, 0px 4px 10px 0px rgba(21, 71, 15, 0.3));
+  @include mixins.hover(color, variables.$near-black-text);
 }
 
 .weekdays {
@@ -65,8 +107,10 @@
 .day {
   padding: 8px;
   text-align: center;
-  background-color: #fff;
+  background-color: variables.$white-background;
   border: 1px solid variables.$grey-background;
+  border-radius: 7px;
+  outline: none;
 
   @include mixins.on-desktop {
     text-align: right;
@@ -78,14 +122,41 @@
   background-color: variables.$today-highlight;
 }
 
-.empty {
-  border: none;
-}
-
 .workdayTile {
-  
+  cursor: pointer;
 }
 
 .weekendTile {
   background-color: variables.$grey-background;
+  cursor: pointer;
+}
+
+.selectedDay {
+  background-color: variables.$selected-day;
+}
+
+.empty {
+  border: none;
+}
+
+.bookTitle {
+  margin-block: 0;
+  text-align: center;
+}
+
+.book {
+  border: 1px solid variables.$grey-background;
+  border-radius: 7px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bookList {
+  width: 90%;
+  
+}
+
+.bookItem {
+  list-style-type: none;
 }
