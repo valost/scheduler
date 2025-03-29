@@ -40,14 +40,23 @@ export const CalendarPage = () => {
     );
   }).sort((a, b) => dayjs(a.startTime).diff(dayjs(b.startTime)));
 
+  const filteredBookings = selectedDay
+    ? bookings.filter((booking) =>
+        dayjs(booking.startTime).isSame(
+          currentMonth.date(selectedDay),
+          'day'
+        )
+      ).sort((a, b) => dayjs(a.startTime).diff(dayjs(b.startTime)))
+    : [];
+
   const handlePrevMonthClick = () => {
     setCurrentMonth(currentMonth.subtract(1, 'month'));
-    setSelectedDay(today.date());
+    setSelectedDay(null);
   }
 
   const handleNextMonthClick = () => {
     setCurrentMonth(currentMonth.add(1, 'month'));
-    setSelectedDay(today.date());
+    setSelectedDay(null);
   }
 
   const handleDayClick = (day: number | null) => {
@@ -105,7 +114,7 @@ export const CalendarPage = () => {
                 day === dayjs().date() && currentMonth.isSame(dayjs(), 'month') ? 
                 styles.currentDay : ''
               } ${hasBooking ? styles.hasBooking : ''} ${
-                day === selectedDay ? styles.selectedDay : ''
+                day === selectedDay && (selectedDay !== null) ? styles.selectedDay : ''
               }`}
               onClick={() => handleDayClick(day)}
             >
@@ -118,17 +127,21 @@ export const CalendarPage = () => {
       <h3 className={styles.bookTitle}>Тренування</h3>
 
       <div className={styles.book}>
-        {bookings.length > 0 ? (
-          <ul className={styles.bookList}>
-            {bookings.map(booking => (
-            <li key={booking.id} className={styles.bookItem}>
-              {dayjs(booking.startTime).format('D MMMM, HH:mm')} - 
-              {dayjs(booking.endTime).format('HH:mm')} - {booking.userName}
-            </li>
-            ))}
-          </ul>
+        {selectedDay ? (
+          filteredBookings.length > 0 ? (
+            <ul className={styles.bookList}>
+              {filteredBookings.map(booking => (
+              <li key={booking.id} className={styles.bookItem}>
+                {dayjs(booking.startTime).format('D MMMM, HH:mm')} - 
+                {dayjs(booking.endTime).format('HH:mm')} - {booking.userName}
+              </li>
+              ))}
+            </ul>
+          ) : (
+            <p>Бронювання відсутні</p>
+          )
         ) : (
-          <p>Бронювання відсутні</p>
+          <p>Виберіть день для перегляду бронювань</p>
         )}
       </div>
     </div>
