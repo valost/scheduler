@@ -5,7 +5,7 @@ import 'dayjs/locale/uk';
 import { useState } from 'react';
 import { getArrowLeftIcon, getArrowRightIcon } from '../../utils/getImages';
 import { bookings } from '../../utils/bookings';
-import { Booking } from '../../types/Booking';
+// import { Booking } from '../../types/Booking';
 
 dayjs.locale('uk');
 
