@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { locations } from '../../utils/locations';
 import styles from './HomePage.module.scss';
 
-import arrow from '../../../public/img/locationImg.png'
 
 export const HomePage: React.FC = () => {
   return (
@@ -18,8 +17,6 @@ export const HomePage: React.FC = () => {
         >
           <img 
             src={location.image}
-            //src={arrow}
-
             alt="Location"
             className={styles.locationImage}
           />
