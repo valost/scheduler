@@ -1,16 +1,16 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { CalendarPage } from "./modules/CalendarPage/CalendarPage";
 import { HomePage } from "./modules/HomePage/HomePage";
 
 export const Routing = () => (
-  <Router>
+  <BrowserRouter basename="/scheduler/">
     <Routes>
-      <Route path='/'>
+      <Route>
         <Route index element={<HomePage />}/>
         <Route path="calendar" element={<CalendarPage />}/>
       </Route>
     </Routes>
-  </Router>
+  </BrowserRouter>
 )
 
 export default Routing;
