@@ -135,6 +135,21 @@
   background-color: variables.$selected-day;
 }
 
+.hasBooking {
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 8px;
+    height: 8px;
+    background-color: #ff5722;
+    border-radius: 50%;
+  }
+}
+
 .empty {
   border: none;
 }
