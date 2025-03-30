@@ -2,13 +2,19 @@
 @use '../../styles/variables' as variables;
 @use '../../styles/mixins' as mixins;
 
+table, th, td {
+  border: 1px solid variables.$grey-background;
+  border-radius: 7px;
+  text-align: center;
+}
+
 .page {
   width: 100vw;
   min-height: 100vh;
   padding: 10px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
 
   @include mixins.on-desktop {
     padding: 40px;
@@ -19,38 +25,11 @@
   margin-block: 0;
 }
 
-.header {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-
-  @include typography.month-header-mobile;
-}
-
-.headerTop {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.headerBottom {
+.calendarTop {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 10px;
-}
-
-.button {
-  height: 32px;
-  padding-inline: 10px;
-  background-color: variables.$white-background;
-  border: 1px solid variables.$grey-background;
-  display: flex;
-  align-items: center;
-
-  @include mixins.hover(box-shadow, 0px 4px 10px 0px rgba(21, 71, 15, 0.3));
-  @include mixins.focus(outline, none);
-  @include mixins.hover(border, none);
 }
 
 .buttonArrow {
@@ -69,17 +48,20 @@
   width: 16px;
 }
 
-.buttonBack {
-  height: 32px;
-  padding-inline: 10px;
-  color: variables.$near-black-text;
-  border: 1px solid variables.$grey-background;
+.buttonBook {
+  margin: 0 auto;
+  padding: 10px;
+  width: 240px;
   display: flex;
+  justify-content: center;
   align-items: center;
   border-radius: 7px;
+  color: variables.$near-black-text;
+  background-color: variables.$has-booking;
+  font-size: 18px;
 
-  @include mixins.hover(box-shadow, 0px 4px 10px 0px rgba(21, 71, 15, 0.3));
   @include mixins.hover(color, variables.$near-black-text);
+  @include mixins.hover(box-shadow, 0px 4px 10px 0px rgba(21, 71, 15, 0.3));
 }
 
 .weekdays {
@@ -120,6 +102,7 @@
 
 .currentDay {
   background-color: variables.$today-highlight;
+  border: 1px solid variables.$today-highlight;
 }
 
 .workdayTile {
@@ -133,6 +116,7 @@
 
 .selectedDay {
   background-color: variables.$selected-day;
+  border: 1px solid variables.$selected-day;
 }
 
 .hasBooking {
@@ -145,8 +129,14 @@
     right: 5px;
     width: 8px;
     height: 8px;
-    background-color: #ff5722;
+    background-color: variables.$has-booking;
     border-radius: 50%;
+
+    @include mixins.on-desktop {
+      left: 5px;
+      width: 12px;
+      height: 12px;
+    }
   }
 }
 
@@ -160,11 +150,10 @@
 }
 
 .book {
+  padding: 10px;
   border: 1px solid variables.$grey-background;
   border-radius: 7px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  text-align: center;
 }
 
 .bookList {

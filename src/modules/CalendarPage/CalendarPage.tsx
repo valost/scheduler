@@ -5,6 +5,7 @@ import 'dayjs/locale/uk';
 import { useState } from 'react';
 import { getArrowLeftIcon, getArrowRightIcon } from '../../utils/getImages';
 import { bookings } from '../../utils/bookings';
+import { Header } from '../../components/Header/Header';
 // import { Booking } from '../../types/Booking';
 
 dayjs.locale('uk');
@@ -67,24 +68,18 @@ export const CalendarPage = () => {
 
   return (
     <div className={styles.page}>
-      <div className={styles.header}>
-        <div className={styles.headerTop}>
-          <Link to="/" className={styles.buttonBack}>Назад</Link>
+      <Header backLink="/"/>
 
-          <button className={styles.button}>Тиждень</button>
-        </div>
+      <div className={styles.calendarTop}>
+        <button className={styles.buttonArrow} onClick={handlePrevMonthClick}>
+          <img src={arrowLeftIcon} className={styles.arrow}/>
+        </button>
 
-        <div className={styles.headerBottom}>
-          <button className={styles.buttonArrow} onClick={handlePrevMonthClick}>
-            <img src={arrowLeftIcon} className={styles.arrow}/>
-          </button>
+        <h3 className={styles.title}>{formattedDate}</h3>
 
-          <h3 className={styles.title}>{formattedDate}</h3>
-
-          <button className={styles.buttonArrow} onClick={handleNextMonthClick}>
-            <img src={arrowRightIcon} className={styles.arrow}/>
-          </button>
-        </div>
+        <button className={styles.buttonArrow} onClick={handleNextMonthClick}>
+          <img src={arrowRightIcon} className={styles.arrow}/>
+        </button>
       </div>
 
       <div className={styles.weekdays}>
@@ -111,10 +106,17 @@ export const CalendarPage = () => {
                 index % 7 === 5 || index % 7 === 6 ? styles.weekendTile : 
                 styles.workdayTile
               } ${
-                day === dayjs().date() && currentMonth.isSame(dayjs(), 'month') ? 
-                styles.currentDay : ''
-              } ${hasBooking ? styles.hasBooking : ''} ${
-                day === selectedDay && (selectedDay !== null) ? styles.selectedDay : ''
+                day === dayjs().date() && 
+                currentMonth.isSame(dayjs(), 'month') && 
+                day !== selectedDay 
+                  ? styles.currentDay 
+                  : ''
+              } ${
+                hasBooking ? styles.hasBooking : ''
+              } ${
+                day === selectedDay && selectedDay !== null 
+                  ? styles.selectedDay 
+                  : ''
               }`}
               onClick={() => handleDayClick(day)}
             >
@@ -126,24 +128,35 @@ export const CalendarPage = () => {
 
       <h3 className={styles.bookTitle}>Тренування</h3>
 
-      <div className={styles.book}>
-        {selectedDay ? (
-          filteredBookings.length > 0 ? (
-            <ul className={styles.bookList}>
+      {selectedDay ? (
+        filteredBookings.length > 0 ? (
+          <table>
+            <thead>
+              <tr>
+                <th>Дата</th>
+                <th>Час</th>
+                <th>Ім'я</th>
+              </tr>
+            </thead>
+              
+            <tbody>
               {filteredBookings.map(booking => (
-              <li key={booking.id} className={styles.bookItem}>
-                {dayjs(booking.startTime).format('D MMMM, HH:mm')} - 
-                {dayjs(booking.endTime).format('HH:mm')} - {booking.userName}
-              </li>
+                <tr key={booking.id}>
+                  <td>{dayjs(booking.startTime).format('D/MM')}</td>
+                  <td>{dayjs(booking.startTime).format('HH:mm')} - {dayjs(booking.endTime).format('HH:mm')}</td>
+                  <td>{booking.userName}</td>
+                </tr>
               ))}
-            </ul>
-          ) : (
-            <p>Бронювання відсутні</p>
-          )
+            </tbody>
+          </table>
         ) : (
-          <p>Виберіть день для перегляду бронювань</p>
-        )}
-      </div>
+          <p className={styles.book}>На обрану дату бронювання відсутні</p>
+        )
+      ) : (
+        <p className={styles.book}>Оберіть день для перегляду бронювань</p>
+      )}
+
+      <Link to="/booking" className={styles.buttonBook}>Забронювати корт</Link>
     </div>
   )
 }
