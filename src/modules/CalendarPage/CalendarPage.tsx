@@ -1,12 +1,11 @@
 import styles from './CalendarPage.module.scss';
-import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
 import 'dayjs/locale/uk';
 import { useState } from 'react';
 import { getArrowLeftIcon, getArrowRightIcon } from '../../utils/getImages';
 import { bookings } from '../../utils/bookings';
 import { Header } from '../../components/Header/Header';
-// import { Booking } from '../../types/Booking';
+import { Modal } from '../../components/Modal/Modal';
 
 dayjs.locale('uk');
 
@@ -18,6 +17,8 @@ export const CalendarPage = () => {
   const today = dayjs();
   const [currentMonth, setCurrentMonth] = useState(dayjs().startOf('month'));
   const [selectedDay, setSelectedDay] = useState<number | null>(today.date());
+  const [showNotification, setShowNotification] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   
   const daysInMonth = currentMonth.daysInMonth();
   const firstDayOfMonth = currentMonth.startOf('month').day();
@@ -66,64 +67,76 @@ export const CalendarPage = () => {
     }
   };
 
+  const handleBookClick = (event: React.MouseEvent) => {
+    if (!selectedDay) {
+      event.preventDefault();
+      setShowNotification(true);
+      setTimeout(() => setShowNotification(false), 5000);
+    } else {
+      setIsModalOpen(true);
+    }
+  };
+
   return (
     <div className={styles.page}>
-      <Header backLink="/"/>
+      <Header />
 
-      <div className={styles.calendarTop}>
-        <button className={styles.buttonArrow} onClick={handlePrevMonthClick}>
-          <img src={arrowLeftIcon} className={styles.arrow}/>
-        </button>
+      <div className={styles.calendar}>
+        <div className={styles.calendarTop}>
+          <button className={styles.buttonArrow} onClick={handlePrevMonthClick}>
+            <img src={arrowLeftIcon} className={styles.arrow}/>
+          </button>
 
-        <h3 className={styles.title}>{formattedDate}</h3>
+          <h3 className={styles.title}>{formattedDate}</h3>
 
-        <button className={styles.buttonArrow} onClick={handleNextMonthClick}>
-          <img src={arrowRightIcon} className={styles.arrow}/>
-        </button>
-      </div>
+          <button className={styles.buttonArrow} onClick={handleNextMonthClick}>
+            <img src={arrowRightIcon} className={styles.arrow}/>
+          </button>
+        </div>
 
-      <div className={styles.weekdays}>
-        <div className={styles.workday}>Пн</div>
-        <div className={styles.workday}>Вт</div>
-        <div className={styles.workday}>Ср</div>
-        <div className={styles.workday}>Чт</div>
-        <div className={styles.workday}>Пт</div>
-        <div className={styles.weekend}>Сб</div>
-        <div className={styles.weekend}>Нд</div>
-      </div>
+        <div className={styles.weekdays}>
+          <div className={styles.workday}>Пн</div>
+          <div className={styles.workday}>Вт</div>
+          <div className={styles.workday}>Ср</div>
+          <div className={styles.workday}>Чт</div>
+          <div className={styles.workday}>Пт</div>
+          <div className={styles.weekend}>Сб</div>
+          <div className={styles.weekend}>Нд</div>
+        </div>
 
-      <div className={styles.days}>
-        {calendarDays.map((day, index) => {
-          const hasBooking = day && relevantBookings.some(b => 
-            dayjs(b.startTime).date() === day &&
-            dayjs(b.startTime).isSame(currentMonth, 'month')
-          );
-          return (
-            <div 
-              key={index}
-              className={`${styles.day} ${
-                day === null ? styles.empty :
-                index % 7 === 5 || index % 7 === 6 ? styles.weekendTile : 
-                styles.workdayTile
-              } ${
-                day === dayjs().date() && 
-                currentMonth.isSame(dayjs(), 'month') && 
-                day !== selectedDay 
-                  ? styles.currentDay 
-                  : ''
-              } ${
-                hasBooking ? styles.hasBooking : ''
-              } ${
-                day === selectedDay && selectedDay !== null 
-                  ? styles.selectedDay 
-                  : ''
-              }`}
-              onClick={() => handleDayClick(day)}
-            >
-              {day || ''}
-            </div>
-          );
-        })}
+        <div className={styles.days}>
+          {calendarDays.map((day, index) => {
+            const hasBooking = day && relevantBookings.some(b => 
+              dayjs(b.startTime).date() === day &&
+              dayjs(b.startTime).isSame(currentMonth, 'month')
+            );
+            return (
+              <div 
+                key={index}
+                className={`${styles.day} ${
+                  day === null ? styles.empty :
+                  index % 7 === 5 || index % 7 === 6 ? styles.weekendTile : 
+                  styles.workdayTile
+                } ${
+                  day === dayjs().date() && 
+                  currentMonth.isSame(dayjs(), 'month') && 
+                  day !== selectedDay 
+                    ? styles.currentDay 
+                    : ''
+                } ${
+                  hasBooking ? styles.hasBooking : ''
+                } ${
+                  day === selectedDay && selectedDay !== null 
+                    ? styles.selectedDay 
+                    : ''
+                }`}
+                onClick={() => handleDayClick(day)}
+              >
+                {day || ''}
+              </div>
+            );
+          })}
+        </div>
       </div>
 
       <h3 className={styles.bookTitle}>Тренування</h3>
@@ -156,7 +169,23 @@ export const CalendarPage = () => {
         <p className={styles.book}>Оберіть день для перегляду бронювань</p>
       )}
 
-      <Link to="/booking" className={styles.buttonBook}>Забронювати корт</Link>
+      <button  
+        className={`${styles.buttonBook} ${!selectedDay ? styles.disabled : ''}`}
+        onClick={handleBookClick}
+      >
+        Забронювати корт
+      </button>
+
+      {showNotification && <p className={styles.notification}>Будь ласка оберіть дату бронювання</p>}
+
+      {isModalOpen && (
+        <div className={styles.modalOverlay}>
+          <Modal 
+            selectedDay={selectedDay ? currentMonth.date(selectedDay).format('YYYY-MM-DD') : null}
+            onClose={() => setIsModalOpen(false)}
+          />
+        </div>
+      )}
     </div>
   )
 }

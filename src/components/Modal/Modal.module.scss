@@ -1,0 +1,50 @@
+@use '../../styles/typography' as typography;
+@use '../../styles/variables' as variables;
+@use '../../styles/mixins' as mixins;
+
+.modal {
+  max-width: 90%;
+  max-height: 90vh;
+  background-color: variables.$white-background;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border-radius: 7px;
+
+  @include mixins.on-desktop {
+    width: 540px;
+    padding: 20px;
+  }
+}
+
+.container {
+  padding-inline: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.title {
+  margin: 0 auto;
+}
+
+.description {
+  margin: 0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+}
+
+.buttonBack {
+  @include mixins.back-button;
+}
+
+.button {
+  @include mixins.green-button;
+}

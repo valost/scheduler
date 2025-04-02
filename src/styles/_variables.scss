@@ -6,11 +6,13 @@ $laptop-width: 1024px;
 
 $grey-background: #F1F2F5;
 $white-background: #FFFFFF;
+$semi-transparent-background: rgba(0, 0, 0, 0.5);
 
 /** Text **/
 
 $near-black-text: #1C2526;
 $dark-grey-text: #6B7280;
+$red-notification-text: #EA0B0B;
 
 /** Calendar grid **/
 
@@ -18,4 +20,4 @@ $today-highlight: #f0f8c6;
 $selected-day: #f9cb8a;
 $grid-lines: #E5E7EB;
 $has-booking: #C8F806;
-
+$disabled-booking: #e7f99d;

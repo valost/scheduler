@@ -24,3 +24,63 @@
     #{$_property}: $_toValue;
   }
 }
+
+@mixin active($_property, $_toValue) {
+  &:active {
+    #{$_property}: $_toValue;
+  }
+}
+
+@mixin green-button {
+  margin: 0 auto;
+  padding: 10px;
+  width: 240px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 7px;
+  border: variables.$has-booking;
+  color: variables.$near-black-text;
+  background-color: variables.$has-booking;
+  font-size: 18px;
+  transition: box-shadow 0.3s ease;
+  cursor: pointer;
+
+  &:active {
+    color: variables.$near-black-text;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover {
+    box-shadow: 0px 4px 10px 0px rgba(21, 71, 15, 0.3);
+    color: variables.$near-black-text;
+  }
+
+  &:disabled {
+    color: variables.$dark-grey-text;
+    background-color: variables.$grey-background;
+    cursor: not-allowed;
+  }
+}
+
+@mixin back-button {
+  height: 32px;
+  padding-inline: 10px;
+  color: variables.$near-black-text;
+  background-color: variables.$white-background;
+  border: 1px solid variables.$grey-background;
+  display: flex;
+  align-items: center;
+  border-radius: 7px;
+  transition: box-shadow 0.3s ease;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover {
+    color: variables.$near-black-text;
+    box-shadow: 0px 4px 10px 0px rgba(21, 71, 15, 0.3);
+  }
+}
