@@ -6,8 +6,6 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-
-  @include typography.month-header-mobile;
 }
 
 .headerTop {
@@ -19,25 +17,21 @@
 .buttonUser {
   height: 32px;
   padding-inline: 10px;
+  color: variables.$near-black-text;
   background-color: variables.$selected-day;
-  // border: 1px solid variables.$selected-day;
+  border-radius: 7px;
   display: flex;
   align-items: center;
+  transition: box-shadow 0.3s ease;
+  text-decoration: none;
 
   @include mixins.hover(box-shadow, 0px 4px 10px 0px rgba(21, 71, 15, 0.3));
-  @include mixins.focus(outline, none);
   @include mixins.hover(border, none);
+  @include mixins.hover(color, variables.$near-black-text);
+  @include mixins.focus(outline, none);
+  @include mixins.active(color, variables.$near-black-text);
 }
 
 .buttonBack {
-  height: 32px;
-  padding-inline: 10px;
-  color: variables.$near-black-text;
-  border: 1px solid variables.$grey-background;
-  display: flex;
-  align-items: center;
-  border-radius: 7px;
-
-  @include mixins.hover(box-shadow, 0px 4px 10px 0px rgba(21, 71, 15, 0.3));
-  @include mixins.hover(color, variables.$near-black-text);
+  @include mixins.back-button;
 }

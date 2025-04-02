@@ -1,17 +1,13 @@
 import { Link } from 'react-router-dom';
 import styles from './Header.module.scss';
 
-type Props = {
-  backLink: string;
-}
-
-export const Header = ({ backLink }: Props) => {
+export const Header = () => {
   return (
     <div className={styles.header}>
       <div className={styles.headerTop}>
-        <Link to={backLink} className={styles.buttonBack}>Назад</Link>
+        <Link to='/' className={styles.buttonBack}>Назад</Link>
         
-        <button className={styles.buttonUser}>Мій кабінет</button>
+        <Link to="/user-account" className={styles.buttonUser}>Мій кабінет</Link>
       </div>
     </div>
   )
