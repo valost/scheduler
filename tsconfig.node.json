@@ -13,6 +13,11 @@
     "moduleDetection": "force",
     "noEmit": true,
 
+    "baseUrl": "./server", // Базовий шлях для імпортів
+    "paths": {
+      "*": ["*", "*.ts"] // Спробувати без розширення, потім .ts
+    },
+
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
@@ -20,5 +25,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["vite.config.ts"]
+  "include": ["vite.config.ts", "server"]
 }
