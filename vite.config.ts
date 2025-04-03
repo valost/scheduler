@@ -1,11 +1,26 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react-swc'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react-swc';
+import mkcert from 'vite-plugin-mkcert'; // https://vite.dev/config/
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), mkcert()],
   base: '/scheduler/',
   build: {
-    outDir: 'dist'
-  }
-})
+    outDir: 'dist',
+  },
+  server: {
+    port: 5173,
+    strictPort: true,
+    //https: generateCerts(),
+    proxy: {
+      // proxy API requests to the ASP.NET backend
+      '/login': {
+        target: 'http://localhost:3000', // URL вашого Express сервера
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\//, '/'),
+      },
+    },
+  },
+});
