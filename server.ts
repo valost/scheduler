@@ -1,5 +1,5 @@
-import express = require('express');
-import cors = require('cors');
+import express from 'express';
+import cors from 'cors';
 import validateTelegramData from './server/telegram-auth/validateTelegramData.ts';
 
 const app = express();

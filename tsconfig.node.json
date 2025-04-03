@@ -2,22 +2,27 @@
   "compilerOptions": {
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
     "target": "ES2022",
-    "lib": ["ES2023"],
+    "lib": [
+      "ES2023"
+    ],
     "module": "ESNext",
     "skipLibCheck": true,
-
     /* Bundler mode */
     "moduleResolution": "node",
     "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": true,
-
-    "baseUrl": "./server", // Базовий шлях для імпортів
+    "esModuleInterop": true,
+    "baseUrl": "./server",
+    // Базовий шлях для імпортів
     "paths": {
-      "*": ["*", "*.ts"] // Спробувати без розширення, потім .ts
+      "*": [
+        "*",
+        "*.ts"
+      ]
+      // Спробувати без розширення, потім .ts
     },
-
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
@@ -25,5 +30,8 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["vite.config.ts", "server"]
+  "include": [
+    "vite.config.ts",
+    "server"
+  ]
 }
