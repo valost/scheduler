@@ -19,6 +19,7 @@
     "dayjs": "^1.11.13",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "mongoose": "^8.13.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.4.0",
@@ -27,6 +28,7 @@
   "devDependencies": {
     "@eslint/js": "^9.21.0",
     "@types/express": "^5.0.1",
+    "@types/mongoose": "^5.11.96",
     "@types/node": "^22.13.14",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
