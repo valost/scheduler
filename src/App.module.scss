@@ -6,6 +6,12 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  
+  @include typography.main-text-mobile;
+
+  @include mixins.on-desktop {
+    @include typography.main-text-web;
+  }
 }
 
 body {
@@ -16,11 +22,11 @@ body {
   width: 100%;
   overflow-x: hidden;
 
-  @include typography.main-text-mobile;
+  // @include typography.main-text-mobile;
 
-  @include mixins.on-desktop {
-    @include typography.main-text-web;
-  }
+  // @include mixins.on-desktop {
+  //   @include typography.main-text-web;
+  // }
 }
 
 h3 {
