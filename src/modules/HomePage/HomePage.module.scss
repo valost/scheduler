@@ -13,6 +13,7 @@
   overflow-y: auto;
 
   @include mixins.on-desktop {
+    font-size: 16px;
     padding: 40px;
     flex-direction: row;
     flex-wrap: wrap;
@@ -21,9 +22,11 @@
   }
 }
 
-// .title {
-//   @include typography.event-titles-mobile
-// }
+.title {
+  @include mixins.on-desktop {
+    font-size: 24px;
+  }
+}
 
 .locationCard {
   background-color: variables.$white-background;

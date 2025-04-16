@@ -11,6 +11,7 @@
   gap: 16px;
 
   @include mixins.on-desktop {
+    font-size: 16px;
     padding: 40px;
   }
 }
@@ -35,4 +36,8 @@
 .title {
   margin-block: 0;
   text-align: center;
+
+  @include mixins.on-desktop {
+    font-size: 24px;
+  }
 }

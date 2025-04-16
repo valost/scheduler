@@ -1,7 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import mkcertImport from'vite-plugin-mkcert';
-import path from 'path';
 
 const mkcert = mkcertImport as unknown as () => any;
 
@@ -9,11 +8,6 @@ const mkcert = mkcertImport as unknown as () => any;
 export default defineConfig({
   plugins: [react(), mkcert()],
   base: '/scheduler/',
-  resolve: {
-    alias: {
-      '@styles': path.resolve(__dirname, 'src/styles'),
-    },
-  },
   build: {
     outDir: 'dist',
   },
