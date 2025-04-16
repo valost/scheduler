@@ -3,7 +3,6 @@ import styles from './SignUpModal.module.scss';
 import { postData } from '../../utils/fetchData';
 import { PHONE_REGEX } from '../../utils/constants';
 import { formatPhoneNumber } from '../../utils/formatPhoneNumber';
-import { useState } from 'react';
 
 type Props = {
   onClose: () => void;
