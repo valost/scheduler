@@ -18,7 +18,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.get('/', async (req, res) => {
+router.get('/', async (_, res) => {
   try {
     const bookings = await Booking.find();
     res.status(200).json(bookings);
