@@ -1,4 +1,4 @@
-import styles from './Modal.module.scss';
+import styles from './BookingModal.module.scss';
 import dayjs from 'dayjs';
 import { useState } from 'react';
 import { Dropdown } from '../Dropdown/Dropdown';
@@ -8,7 +8,7 @@ type Props = {
   onClose: () => void;
 }
 
-export const Modal = ({ selectedDay, onClose }: Props) => {
+export const BookingModal = ({ selectedDay, onClose }: Props) => {
   const [startTime, setStartTime] = useState<string | null>(null);
   const [endTime, setEndTime] = useState<string | null>(null);
 

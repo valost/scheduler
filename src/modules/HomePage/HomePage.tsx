@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { locations } from '../../utils/locations';
 import styles from './HomePage.module.scss';
 
-
 export const HomePage: React.FC = () => {
   return (
     <div className={styles.page}>

@@ -2,37 +2,34 @@
 @use '../../styles/variables' as variables;
 @use '../../styles/mixins' as mixins;
 
-.page {
-  width: 100vw;
-  min-height: 100vh;
-  padding: 10px;
+.modal {
+  max-width: 90%;
+  max-height: 90vh;
+  background-color: variables.$white-background;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 16px;
+  border-radius: 20px;
 
   @include mixins.on-desktop {
-    padding: 40px;
+    width: 540px;
+    padding: 20px;
   }
 }
 
-.header {
-  display: flex;
-
-  @include mixins.page-background;
-}
-
-.wrapper {
-  @include mixins.page-background;
+.container {
+  padding-inline: 20px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  align-items: center;
+  gap: 30px;
 }
 
 .buttonBack {
   @include mixins.back-button;
 }
 
-.title {
-  margin-block: 0;
-  text-align: center;
+.button {
+  @include mixins.green-button;
 }

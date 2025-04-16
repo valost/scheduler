@@ -1,67 +1,39 @@
 /*** MOBILE ***/
 
 @mixin title-mobile {
-  font-family: 'OpenSans-SemiBold', sans-serif;
-  font-size: 16px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
 }
 
 @mixin main-text-mobile {
-  font-family: 'OpenSans-Regular', sans-serif;
-  font-size: 12px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 300;
+  font-size: 14px;
 }
 
 @mixin date-numbers-mobile {
-  font-family: 'OpenSans-Regular', sans-serif;
-  font-size: 14px;
-}
-
-/////
-
-@mixin day-names-mobile {
-  font-family: 'OpenSans-SemiBold', sans-serif;
-  font-size: 12px;
-}
-
-@mixin event-titles-mobile {
-  font-family: 'OpenSans-SemiBold', sans-serif;
-  font-size: 14px;
-}
-
-@mixin notes-mobile {
-  font-family: 'OpenSans-Light', sans-serif;
-  font-size: 10px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
 }
 
 /*** WEB ***/
 
 @mixin title-web {
-  font-family: 'OpenSans-SemiBold', sans-serif;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
   font-size: 24px;
 }
 
 @mixin main-text-web {
-  font-family: 'OpenSans-Regular', sans-serif;
-  font-size: 14px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 300;
+  font-size: 16px;
 }
 
 @mixin date-numbers-web {
-  font-family: 'OpenSans-Regular', sans-serif;
-  font-size: 16px;
-}
-
-////////
-
-@mixin day-names-web {
-  font-family: 'OpenSans-SemiBold', sans-serif;
-  font-size: 14px;
-}
-
-@mixin event-titles-web {
-  font-family: 'OpenSans-SemiBold', sans-serif;
-  font-size: 16px;
-}
-
-@mixin notes-web {
-  font-family: 'OpenSans-Light', sans-serif;
-  font-size: 12px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 400;
+  font-size: 18px;
 }
