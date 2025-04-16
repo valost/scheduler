@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
-import mkcert from 'vite-plugin-mkcert'; // https://vite.dev/config/
+import mkcertImport from'vite-plugin-mkcert';
+const mkcert = mkcertImport as unknown as () => any;
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -16,11 +17,16 @@ export default defineConfig({
     proxy: {
       // proxy API requests to the ASP.NET backend
       '/login': {
-        target: 'http://localhost:3000', // URL вашого Express сервера
+        target: 'https://localhost:3000', // URL вашого Express сервера
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path.replace(/^\//, '/'),
       },
+      '/api': {
+        target: 'https://localhost:3000',
+        changeOrigin: true,
+        secure: false,
+      }
     },
   },
 });

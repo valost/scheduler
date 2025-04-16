@@ -1,27 +1,52 @@
 import express from 'express';
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import userRoutes from './routes/userRoutes';
-import bookingRoutes from './routes/bookingRoutes';
-import locationRoutes from './routes/locationRoutes';
+import userRoutes from './routes/userRoutes.ts';
+import bookingRoutes from './routes/bookingRoutes.ts';
+import locationRoutes from './routes/locationRoutes.ts';
+import cors from 'cors';
+import validateTelegramData from './telegram-auth/validateTelegramData.ts';
+import fs from 'fs';
+import https from 'https';
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-import cors from 'cors';
-import validateTelegramData from './server/telegram-auth/validateTelegramData';
+
+// HTTPS credentials
+const httpsOptions = {
+  key: fs.readFileSync('localhost-key.pem'),
+  cert: fs.readFileSync('localhost.pem'),
+};
 
 // Middleware to parse JSON (useful for APIs)
 app.use(express.json());
+
+// app.use(
+//   cors({
+//     origin: ['http://localhost:5173'], // Add your front-end URL here
+//     credentials: true,
+//   })
+// );
+
+const corsOptions = {
+  origin: ['https://localhost:5173'],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 
 // Connect to MongoDB
 mongoose
   .connect(process.env.MONGO_URI as string)
   .then(() => {
     console.log("Connected to MongoDB");
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
+    https.createServer(httpsOptions, app).listen(PORT, () => {
+      console.log(`🚀 HTTPS Server running at https://localhost:${PORT}`);
     });
   })
   .catch((err) => {
@@ -43,7 +68,7 @@ app.get('/api/hello', (req, res) => {
 app.use('/api/users', userRoutes);
 
 // Booking route
-app.use('/aip/bookings', bookingRoutes);
+app.use('/api/bookings', bookingRoutes);
 
 // Locations route
 app.use('/api/locations', locationRoutes);

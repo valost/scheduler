@@ -5,7 +5,9 @@ import { useState } from 'react';
 import { getArrowLeftIcon, getArrowRightIcon } from '../../utils/getImages';
 import { bookings } from '../../utils/bookings';
 import { Header } from '../../components/Header/Header';
-import { Modal } from '../../components/Modal/Modal';
+import { BookingModal } from '../../components/BookingModal/BookingModal';
+import { UnauthModal } from '../../components/UnauthModal/UnauthModal';
+import { SignUpModal } from '../../components/SignUpModal/SignUpModal';
 
 dayjs.locale('uk');
 
@@ -19,6 +21,7 @@ export const CalendarPage = () => {
   const [selectedDay, setSelectedDay] = useState<number | null>(today.date());
   const [showNotification, setShowNotification] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
   
   const daysInMonth = currentMonth.daysInMonth();
   const firstDayOfMonth = currentMonth.startOf('month').day();
@@ -79,7 +82,9 @@ export const CalendarPage = () => {
 
   return (
     <div className={styles.page}>
-      <Header />
+      <div className={styles.wrapper}>
+        <Header />
+      </div>
 
       <div className={styles.calendar}>
         <div className={styles.calendarTop}>
@@ -139,50 +144,68 @@ export const CalendarPage = () => {
         </div>
       </div>
 
-      <h3 className={styles.bookTitle}>Тренування</h3>
+      <div className={styles.wrapper}>
+        <h3 className={styles.bookTitle}>Тренування</h3>
 
-      {selectedDay ? (
-        filteredBookings.length > 0 ? (
-          <table>
-            <thead>
-              <tr>
-                <th>Дата</th>
-                <th>Час</th>
-                <th>Ім'я</th>
-              </tr>
-            </thead>
-              
-            <tbody>
-              {filteredBookings.map(booking => (
-                <tr key={booking.id}>
-                  <td>{dayjs(booking.startTime).format('D/MM')}</td>
-                  <td>{dayjs(booking.startTime).format('HH:mm')} - {dayjs(booking.endTime).format('HH:mm')}</td>
-                  <td>{booking.userName}</td>
+        {selectedDay ? (
+          filteredBookings.length > 0 ? (
+            <table>
+              <thead>
+                <tr>
+                  <th>Дата</th>
+                  <th>Час</th>
+                  <th>Ім'я</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+                
+              <tbody>
+                {filteredBookings.map(booking => (
+                  <tr key={booking.id}>
+                    <td>{dayjs(booking.startTime).format('D/MM')}</td>
+                    <td>{dayjs(booking.startTime).format('HH:mm')} - {dayjs(booking.endTime).format('HH:mm')}</td>
+                    <td>{booking.userName}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p className={styles.book}>На обрану дату бронювання відсутні</p>
+          )
         ) : (
-          <p className={styles.book}>На обрану дату бронювання відсутні</p>
-        )
-      ) : (
-        <p className={styles.book}>Оберіть день для перегляду бронювань</p>
-      )}
+          <p className={styles.book}>Оберіть день для перегляду бронювань</p>
+        )}
 
-      <button  
-        className={`${styles.buttonBook} ${!selectedDay ? styles.disabled : ''}`}
-        onClick={handleBookClick}
-      >
-        Забронювати корт
-      </button>
+        <button  
+          className={`${styles.buttonBook} ${!selectedDay ? styles.disabled : ''}`}
+          onClick={handleBookClick}
+        >
+          Забронювати корт
+        </button>
 
-      {showNotification && <p className={styles.notification}>Будь ласка оберіть дату бронювання</p>}
-
+        {showNotification && <p className={styles.notification}>Будь ласка оберіть дату бронювання</p>}
+      </div>
+      
       {isModalOpen && (
         <div className={styles.modalOverlay}>
-          <Modal 
+          {/* <BookingModal 
             selectedDay={selectedDay ? currentMonth.date(selectedDay).format('YYYY-MM-DD') : null}
             onClose={() => setIsModalOpen(false)}
+          /> */}
+
+          <UnauthModal 
+            onClose={() => setIsModalOpen(false)}
+            onAuthClick={() => {
+              setIsModalOpen(false);
+              setIsSignUpModalOpen(true);
+            }}
+          />
+        </div>
+      )}
+
+      {isSignUpModalOpen && (
+        <div className={styles.modalOverlay}>
+          <SignUpModal 
+            onClose={() => setIsSignUpModalOpen(false)}
           />
         </div>
       )}

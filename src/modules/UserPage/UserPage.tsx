@@ -11,23 +11,25 @@ export const UserPage = () => {
         <Link to='/calendar' className={styles.buttonBack}>Назад</Link>
       </div>
       
-      <h3 className={styles.title}>Мої бронювання</h3>
+      <div className={styles.wrapper}>
+        <h3 className={styles.title}>Мої бронювання</h3>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Дата</th>
-            <th>Час</th>
-          </tr>
-        </thead>
-              
-        <tbody>
-          <tr>
-            <td></td>
-            <td></td>
-          </tr>
-        </tbody>
-      </table>
+        <table>
+          <thead>
+            <tr>
+              <th>Дата</th>
+              <th>Час</th>
+            </tr>
+          </thead>
+                
+          <tbody>
+            <tr>
+              <td></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   )
 }

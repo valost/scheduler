@@ -15,21 +15,18 @@
     "moduleDetection": "force",
     "noEmit": true,
     "esModuleInterop": true,
-    "baseUrl": "./server",
-    // Базовий шлях для імпортів
-    "paths": {
-      "*": [
-        "*",
-        "*.ts"
-      ]
-      // Спробувати без розширення, потім .ts
-    },
+    //"baseUrl": "./server",
+  
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+    "rootDir": "server",
+    // "ts-node": {
+    //   "esm": true
+    // }
   },
   "include": [
     "vite.config.ts",
