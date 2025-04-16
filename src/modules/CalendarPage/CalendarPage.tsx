@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { getArrowLeftIcon, getArrowRightIcon } from '../../utils/getImages';
 import { bookings } from '../../utils/bookings';
 import { Header } from '../../components/Header/Header';
-import { BookingModal } from '../../components/BookingModal/BookingModal';
+// import { BookingModal } from '../../components/BookingModal/BookingModal';
 import { UnauthModal } from '../../components/UnauthModal/UnauthModal';
 import { SignUpModal } from '../../components/SignUpModal/SignUpModal';
 
