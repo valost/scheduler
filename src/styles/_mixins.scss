@@ -46,7 +46,11 @@
   transition: box-shadow 0.3s ease;
   cursor: pointer;
 
-  @include typography.date-numbers-web;
+  @include typography.date-numbers-mobile;
+
+  @include on-desktop {
+    @include typography.date-numbers-web;
+  }
 
   &:active {
     color: variables.$near-black-text;

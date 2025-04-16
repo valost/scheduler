@@ -1,38 +1,22 @@
-@use '@styles/mixins' as mixins;
-@use '@styles/typography' as typography;
-@use '@styles/variables' as variables;
-
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-
-  @include typography.main-text-mobile;
-
-  @include mixins.on-desktop {
-    @include typography.main-text-web;
-  }
+  font-family: 'Nunito', sans-serif;
+  font-weight: 300;
+  font-size: 14px;
 }
 
 body {
-  background-color: variables.$grey-background;
+  background-color: #F1F2F5;
   // min-width: 375px;
   // max-width: 1280px;
   height: 100%;
   width: 100%;
   overflow-x: hidden;
-
-  // @include typography.main-text-mobile;
-
-  // @include mixins.on-desktop {
-  //   @include typography.main-text-web;
-  // }
 }
 
 h3 {
-  @include typography.title-mobile;
-
-  @include mixins.on-desktop {
-    @include typography.title-web;
-  }
+  font-weight: 700;
+  font-size: 18px;
 }
