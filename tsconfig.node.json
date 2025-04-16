@@ -23,10 +23,8 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
-    "rootDir": "server",
-    // "ts-node": {
-    //   "esm": true
-    // }
+    "rootDir": ".",
+    // "rootDir": "server",
   },
   "include": [
     "vite.config.ts",
