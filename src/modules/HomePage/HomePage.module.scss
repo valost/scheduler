@@ -22,11 +22,11 @@
   }
 }
 
-.title {
-  @include mixins.on-desktop {
-    font-size: 24px;
-  }
-}
+// .title {
+//   @include mixins.on-desktop {
+//     font-size: 24px;
+//   }
+// }
 
 .locationCard {
   background-color: variables.$white-background;
@@ -63,9 +63,13 @@
 }
 
 .locationName {
-  @include typography.date-numbers-mobile;
+  @include typography.title-mobile;
 
   margin: 0;
+
+  @include mixins.on-desktop {
+    @include typography.title-web;
+  }
 }
 
 .locationAddress {
