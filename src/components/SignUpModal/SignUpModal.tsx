@@ -1,12 +1,13 @@
 import { Controller, useForm } from 'react-hook-form';
 import styles from './SignUpModal.module.scss';
-import { useState } from 'react';
 import { postData } from '../../utils/fetchData';
 import { PHONE_REGEX } from '../../utils/constants';
 import { formatPhoneNumber } from '../../utils/formatPhoneNumber';
+import { useState } from 'react';
 
 type Props = {
   onClose: () => void;
+  onNotify: (message: string) => void;
 }
 
 type FormValues = {
@@ -14,9 +15,7 @@ type FormValues = {
   phone: string;
 }
 
-export const SignUpModal = ({ onClose }: Props) => {
-  const [successMessage, setSuccessMessage] = useState('');
-
+export const SignUpModal = ({ onClose, onNotify }: Props) => {
   const {
     register,
     handleSubmit,
@@ -26,15 +25,14 @@ export const SignUpModal = ({ onClose }: Props) => {
 
   const onSubmit = async (data: FormValues) => {
     try {
-      const response = await postData<{ message: string }>(
-        '/api/users',
-        data
-      );
-
-      console.log(response.message);
-      setSuccessMessage("Ви успішно авторизувались");
+      await postData<{ message: string }>('/api/users', data);
+      
+      onNotify('Ви успішно авторизувались!');
+      onClose();
     } catch (error) {
+      onNotify('Щось пішло не так. Спробуйте ще раз.');
       console.error("Помилка при реєстрації", error);
+      onClose();
     }
   }
 
@@ -55,7 +53,12 @@ export const SignUpModal = ({ onClose }: Props) => {
 
         <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
           <div className={styles.inputContainer}>
-            <label htmlFor="name">Ваше ім'я:</label>
+            <label 
+              className={styles.inputLabel}
+              htmlFor="name"
+            >
+              Ваше ім'я:
+            </label>
 
             <div className={styles.inputWrapper}>
               <input 
@@ -74,7 +77,12 @@ export const SignUpModal = ({ onClose }: Props) => {
           </div>
           
           <div className={styles.inputContainer}>
-            <label htmlFor="name">Ваш номер телефону:</label>
+            <label 
+              className={styles.inputLabel}
+              htmlFor="name"
+            >
+              Ваш номер телефону:
+            </label>
 
             <div className={styles.inputWrapper}>
               <Controller
@@ -111,10 +119,6 @@ export const SignUpModal = ({ onClose }: Props) => {
             Підтвердити
           </button>
         </form>
-
-        {successMessage && (
-          <span></span>
-        )}
       </div>
     </div>
   )
