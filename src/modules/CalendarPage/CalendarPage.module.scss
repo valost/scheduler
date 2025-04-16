@@ -22,9 +22,9 @@ th, td {
   // gap: 16px;
   margin: 0 auto;
 
-  @include mixins.on-desktop {
-    font-size: 16px;
-  }
+  // @include mixins.on-desktop {
+  //   font-size: 16px;
+  // }
 }
 
 .wrapper {
