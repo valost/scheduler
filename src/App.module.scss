@@ -6,7 +6,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  
+
   @include typography.main-text-mobile;
 
   @include mixins.on-desktop {
