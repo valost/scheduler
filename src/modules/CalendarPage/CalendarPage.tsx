@@ -8,6 +8,7 @@ import { Header } from '../../components/Header/Header';
 // import { BookingModal } from '../../components/BookingModal/BookingModal';
 import { UnauthModal } from '../../components/UnauthModal/UnauthModal';
 import { SignUpModal } from '../../components/SignUpModal/SignUpModal';
+import { NotificationModal } from '../../components/NotificationModal/NotificationModal';
 
 dayjs.locale('uk');
 
@@ -22,6 +23,7 @@ export const CalendarPage = () => {
   const [showNotification, setShowNotification] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState<string | null>(null);
   
   const daysInMonth = currentMonth.daysInMonth();
   const firstDayOfMonth = currentMonth.startOf('month').day();
@@ -205,7 +207,17 @@ export const CalendarPage = () => {
       {isSignUpModalOpen && (
         <div className={styles.modalOverlay}>
           <SignUpModal 
+            onNotify={(message) => setNotificationMessage(message)}
             onClose={() => setIsSignUpModalOpen(false)}
+          />
+        </div>
+      )}
+
+      {notificationMessage && (
+        <div className={styles.modalOverlay}>
+          <NotificationModal 
+            message={notificationMessage}
+            onClose={() => setNotificationMessage(null)}
           />
         </div>
       )}
