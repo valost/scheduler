@@ -54,12 +54,12 @@ mongoose
   });
 
 // Default Route
-app.get("/", (req, res) => {
+app.get("/", (_, res) => {
   res.send("API is running...");
 });
 
 // Basic route
-app.get('/api/hello', (req, res) => {
+app.get('/api/hello', (_, res) => {
   res.json({ message: 'Hello from Express!' });
 });
 
