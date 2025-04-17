@@ -1,54 +1,59 @@
-# React + TypeScript + Vite
+# SCHEDULER #
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Overview #
 
-Currently, two official plugins are available:
+This is a scheduling app under development for a tennis club. It allows users to:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+View and choose a tennis court location from the homepage.
 
-## Expanding the ESLint configuration
+Book a training session: After choosing a location, users can see a calendar with available dates and book a session.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+View other users' bookings to avoid conflicts.
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+In the future, the app will include Telegram authentication for users.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+# Authentication #
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+To book a training session, users must be authenticated with their phone number.
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+If a user clicks on the "Book the court" button without being logged in, a modal window will appear, prompting them to authenticate by entering their name and phone number.
+
+API for user authentication is still in the testing phase.
+
+# Booking Details #
+
+Maximum booking window: Users can book training sessions up to 14 days in advance.
+
+Booking time: From 5:00 AM to 11:00 PM.
+
+Minimum session duration: 30 minutes.
+
+# Dependencies #
+
+Node v22.14.0
+
+NPM 10.9.2
+
+react-router-dom
+
+# Technologies #
+
+# Frontend #
+
+React Vite
+
+TypeScript
+
+fetch API
+
+SCSS
+
+HTML5
+
+# Backend #
+
+Express.js
+
+Mongoose
+
+MongoDB
