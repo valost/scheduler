@@ -4,7 +4,7 @@ import { HomePage } from "./modules/HomePage/HomePage";
 import { UserPage } from "./modules/UserPage/UserPage";
 
 export const Routing = () => (
-  <BrowserRouter basename="/scheduler/">
+  <BrowserRouter basename="/scheduler">
     <Routes>
       <Route>
         <Route index element={<HomePage />}/>
