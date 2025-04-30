@@ -33,7 +33,7 @@
   width: 90%;
   max-width: 360px;
   height: 270px;
-  // height: calc((100vh - 40px) / 3); 
+  // height: calc((100vh - 40px) / 3);
   padding: 20px;
   border: 1px solid variables.$grey-background;
   border-radius: 25px;
@@ -51,9 +51,8 @@
 
   @include mixins.on-desktop {
     width: 360px;
-  } 
+  }
 }
-
 
 .locationImage {
   width: 100%;
@@ -73,5 +72,5 @@
 }
 
 .locationAddress {
- margin: 0;
+  margin: 0;
 }

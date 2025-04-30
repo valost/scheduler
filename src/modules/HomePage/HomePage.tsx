@@ -8,13 +8,9 @@ export const HomePage: React.FC = () => {
     <div className={styles.page}>
       {/* <h2 className={styles.title}>Оберіть локацію:</h2> */}
 
-      {locations.map(location => (
-        <Link 
-          to="/calendar" 
-          key={location.id}
-          className={styles.locationCard}
-        >
-          <img 
+      {locations.map((location) => (
+        <Link to="/calendar" key={location.id} className={styles.locationCard}>
+          <img
             src={location.image}
             alt="Location"
             className={styles.locationImage}
@@ -24,5 +20,5 @@ export const HomePage: React.FC = () => {
         </Link>
       ))}
     </div>
-  )
-}
+  );
+};

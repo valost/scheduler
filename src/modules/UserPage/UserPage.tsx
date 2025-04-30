@@ -8,9 +8,11 @@ export const UserPage = () => {
   return (
     <div className={styles.page}>
       <div className={styles.header}>
-        <Link to='/calendar' className={styles.buttonBack}>Назад</Link>
+        <Link to="/calendar" className={styles.buttonBack}>
+          Назад
+        </Link>
       </div>
-      
+
       <div className={styles.wrapper}>
         <h3 className={styles.title}>Мої бронювання</h3>
 
@@ -21,7 +23,7 @@ export const UserPage = () => {
               <th>Час</th>
             </tr>
           </thead>
-                
+
           <tbody>
             <tr>
               <td></td>
@@ -31,5 +33,5 @@ export const UserPage = () => {
         </table>
       </div>
     </div>
-  )
-}
+  );
+};

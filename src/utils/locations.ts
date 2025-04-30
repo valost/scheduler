@@ -1,4 +1,4 @@
-import { getLocationImg } from "./getImages";
+import { getLocationImg } from './getImages';
 
 export const locations = [
   {
@@ -31,4 +31,4 @@ export const locations = [
     image: getLocationImg(),
     address: '95 Random Str, Kyiv',
   },
-]
+];

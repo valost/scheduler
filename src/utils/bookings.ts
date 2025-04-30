@@ -41,4 +41,4 @@ export const bookings = [
     startTime: '2025-04-29T09:00:00+02:00',
     endTime: '2025-04-29T11:00:00+02:00',
   },
-]
+];

@@ -7,20 +7,20 @@ type Props = {
   selected: string | null;
   onSelect: (value: string) => void;
   disabled?: boolean;
-}
+};
 
 export const Dropdown = ({
   label,
   options,
   selected,
   onSelect,
-  disabled = false
+  disabled = false,
 }: Props) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const handleToggle = () => {
     if (!disabled) {
-      setIsOpen(prev => !prev);
+      setIsOpen((prev) => !prev);
     }
   };
 
@@ -29,25 +29,28 @@ export const Dropdown = ({
       console.log('Clicked element:', event.target);
       console.log('Dropdown ref:', dropdownRef.current);
 
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
       }
-    }
+    };
 
     document.addEventListener('click', handleClickOutside);
 
     return () => {
       document.removeEventListener('click', handleClickOutside);
-    }
+    };
   }, []);
-  
+
   return (
     <div className={styles.dropdown} ref={dropdownRef}>
       <div className={styles.label}>{label}</div>
 
-      <button 
+      <button
         type="button"
-        className={`${styles.dropdownButton} ${disabled ? styles.disabled : ''}`} 
+        className={`${styles.dropdownButton} ${disabled ? styles.disabled : ''}`}
         onClick={handleToggle}
         disabled={disabled}
       >
@@ -56,7 +59,7 @@ export const Dropdown = ({
 
       {isOpen && !disabled && (
         <ul className={styles.options}>
-          {options.map(option => (
+          {options.map((option) => (
             <li
               key={option}
               className={styles.option}
@@ -71,5 +74,5 @@ export const Dropdown = ({
         </ul>
       )}
     </div>
-  )
-}
+  );
+};

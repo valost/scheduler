@@ -1,6 +1,6 @@
-# SCHEDULER #
+# SCHEDULER
 
-# Overview #
+# Overview
 
 This is a scheduling app under development for a tennis club. It allows users to:
 
@@ -12,7 +12,7 @@ View other users' bookings to avoid conflicts.
 
 In the future, the app will include Telegram authentication for users.
 
-# Authentication #
+# Authentication
 
 To book a training session, users must be authenticated with their phone number.
 
@@ -20,7 +20,7 @@ If a user clicks on the "Book the court" button without being logged in, a modal
 
 API for user authentication is still in the testing phase.
 
-# Booking Details #
+# Booking Details
 
 Maximum booking window: Users can book training sessions up to 14 days in advance.
 
@@ -28,7 +28,7 @@ Booking time: From 5:00 AM to 11:00 PM.
 
 Minimum session duration: 30 minutes.
 
-# Dependencies #
+# Dependencies
 
 Node v22.14.0
 
@@ -36,9 +36,9 @@ NPM 10.9.2
 
 react-router-dom
 
-# Technologies #
+# Technologies
 
-# Frontend #
+# Frontend
 
 React Vite
 
@@ -50,7 +50,7 @@ SCSS
 
 HTML5
 
-# Backend #
+# Backend
 
 Express.js
 

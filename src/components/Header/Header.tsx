@@ -5,10 +5,14 @@ export const Header = () => {
   return (
     <div className={styles.header}>
       <div className={styles.headerTop}>
-        <Link to='/' className={styles.buttonBack}>Назад</Link>
-        
-        <Link to="/user-account" className={styles.buttonUser}>Мій кабінет</Link>
+        <Link to="/" className={styles.buttonBack}>
+          Назад
+        </Link>
+
+        <Link to="/user-account" className={styles.buttonUser}>
+          Мій кабінет
+        </Link>
       </div>
     </div>
-  )
-}
+  );
+};
