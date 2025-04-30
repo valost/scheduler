@@ -1,9 +1,7 @@
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import styles from './SignUpModal.module.scss';
-import { PHONE_REGEX } from '../../utils/constants';
+// import { PHONE_REGEX } from '../../utils/constants';
 import { useAuth } from '../../context/AuthContext';
-import InputMask from 'react-input-mask';
-// import InputMask from 'react-input-mask';
 
 type Props = {
   onClose: () => void;
@@ -21,7 +19,7 @@ export const SignUpModal = ({ onClose, onNotify }: Props) => {
   const {
     register,
     handleSubmit,
-    control,
+    // control,
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
@@ -95,7 +93,7 @@ export const SignUpModal = ({ onClose, onNotify }: Props) => {
             </label>
 
             <div className={styles.inputWrapper}>
-              <Controller
+              {/* <Controller
                 name="phone"
                 control={control}
                 rules={{
@@ -116,7 +114,7 @@ export const SignUpModal = ({ onClose, onNotify }: Props) => {
                     )}
                   </InputMask>
                 )}
-              />
+              /> */}
             </div>
 
             {errors.phone && <span>{errors.phone.message}</span>}
