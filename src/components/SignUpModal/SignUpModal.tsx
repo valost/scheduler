@@ -32,7 +32,7 @@ export const SignUpModal = ({ onClose, onNotify }: Props) => {
     },
   });
 
-  const { registerUser, loading, error } = useAuth();
+  const { registerUser, error } = useAuth();
 
   const onSubmit = async (data: FormValues) => {
     const success = await registerUser(
