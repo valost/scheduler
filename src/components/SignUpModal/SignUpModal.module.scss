@@ -58,7 +58,7 @@
 .buttonBack {
   @include mixins.back-button;
 
-  border-color: variables.$red-notification-text; 
+  border-color: variables.$red-notification-text;
 }
 
 .button {

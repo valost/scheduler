@@ -1,6 +1,6 @@
 import express from 'express';
-import mongoose from "mongoose";
-import dotenv from "dotenv";
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 import userRoutes from './routes/userRoutes.ts';
 import bookingRoutes from './routes/bookingRoutes.ts';
 import locationRoutes from './routes/locationRoutes.ts';
@@ -35,7 +35,7 @@ const corsOptions = {
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-}
+};
 
 app.use(cors(corsOptions));
 app.options('*', cors(corsOptions));
@@ -44,25 +44,24 @@ app.options('*', cors(corsOptions));
 mongoose
   .connect(process.env.MONGO_URI as string)
   .then(() => {
-    console.log("Connected to MongoDB");
+    console.log('Connected to MongoDB');
     https.createServer(httpsOptions, app).listen(PORT, () => {
       console.log(`🚀 HTTPS Server running at https://localhost:${PORT}`);
     });
   })
   .catch((err) => {
-    console.error("MongoDB connection error:", err);
+    console.error('MongoDB connection error:', err);
   });
 
 // Default Route
-app.get("/", (_, res) => {
-  res.send("API is running...");
+app.get('/', (_, res) => {
+  res.send('API is running...');
 });
 
 // Basic route
 app.get('/api/hello', (_, res) => {
   res.json({ message: 'Hello from Express!' });
 });
-
 
 // User route
 app.use('/api/users', userRoutes);
@@ -72,10 +71,6 @@ app.use('/api/bookings', bookingRoutes);
 
 // Locations route
 app.use('/api/locations', locationRoutes);
-
-
-
-
 
 // Start the server
 // app.listen(PORT, () => {

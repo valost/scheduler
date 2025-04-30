@@ -1,7 +1,7 @@
-import { BASE_URL } from "./constants";
+import { BASE_URL } from './constants';
 
 export function getData<T>(url: string): Promise<T> {
-  return fetch(BASE_URL + url).then(response => {
+  return fetch(BASE_URL + url).then((response) => {
     if (response.ok) {
       return response.json();
     }
@@ -12,16 +12,16 @@ export function getData<T>(url: string): Promise<T> {
 
 export function postData<T>(url: string, data: unknown): Promise<T> {
   return fetch(BASE_URL + url, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify(data),
-  }).then(response => {
+  }).then((response) => {
     if (response.ok) {
       return response.json();
     }
 
     throw new Error(`Failed to load data from ${url}`);
-  })
+  });
 }
