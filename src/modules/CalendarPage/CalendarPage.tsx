@@ -244,7 +244,7 @@ export const CalendarPage = () => {
       {modal === 'login' && (
         <div className={styles.modalOverlay}>
           <LoginModal
-            onClose={() => setModal(null)}
+            onBack={() => setModal('unauth')}
           />
         </div>
       )}

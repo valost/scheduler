@@ -1,11 +1,19 @@
 import styles from './LoginModal.module.scss';
 
 type Props = {
-  onClose: () => void;
+  onBack: () => void;
 }
 
-export const LoginModal = ({ onClose }: Props) => {
+export const LoginModal = ({ onBack }: Props) => {
+  const handleBackClick = () => {
+    onBack();
+  };
+  
   return (
-    <div className={styles.modal}></div>
+    <div className={styles.modal}>
+      <button onClick={handleBackClick}>
+        Назад
+      </button>
+    </div>
   )
 }
