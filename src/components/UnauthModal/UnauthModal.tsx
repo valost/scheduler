@@ -2,10 +2,11 @@ import styles from './UnauthModal.module.scss';
 
 type Props = {
   onClose: () => void;
-  onAuthClick: () => void;
+  onSignupClick: () => void;
+  onLoginClick: () => void;
 };
 
-export const UnauthModal = ({ onClose, onAuthClick }: Props) => {
+export const UnauthModal = ({ onClose, onSignupClick, onLoginClick }: Props) => {
   const handleBackClick = () => {
     onClose();
   };
@@ -20,18 +21,30 @@ export const UnauthModal = ({ onClose, onAuthClick }: Props) => {
 
       <div className={styles.container}>
         <p className={styles.text}>
-          Бронювання доступне тільки авторизованим користувачам
+          Щоб керувати бронюваннями, увійдіть до системи.
         </p>
 
-        <button
-          className={styles.button}
-          onClick={() => {
-            console.log('Auth button clicked');
-            onAuthClick();
-          }}
-        >
-          Авторизація
-        </button>
+        <div className={styles.buttonWrapper}>
+          <button
+            className={styles.button}
+            onClick={() => {
+              console.log('Auth button clicked');
+              onLoginClick();
+            }}
+          >
+            Увійти
+          </button>
+
+          <button
+            className={styles.button}
+            onClick={() => {
+              console.log('Auth button clicked');
+              onSignupClick();
+            }}
+          >
+            Зареєструватися
+          </button>
+        </div>
       </div>
     </div>
   );

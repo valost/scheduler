@@ -1,9 +1,10 @@
 import { useForm } from 'react-hook-form';
 import styles from './SignUpModal.module.scss';
-// import { PHONE_REGEX } from '../../utils/constants';
 import { useAuth } from '../../context/AuthContext';
+import { PHONE_REGEX } from '../../utils/constants';
 
 type Props = {
+  onBack: () => void;
   onClose: () => void;
   onNotify: (message: string) => void;
 };
@@ -15,16 +16,16 @@ type FormValues = {
   repeatPassword: string;
 };
 
-export const SignUpModal = ({ onClose, onNotify }: Props) => {
+export const SignUpModal = ({ onBack, onClose, onNotify }: Props) => {
   const {
     register,
     handleSubmit,
-    // control,
+    reset,
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
       name: '',
-      phone: '+380',
+      phone: '',
       password: '',
       repeatPassword: '',
     },
@@ -33,9 +34,11 @@ export const SignUpModal = ({ onClose, onNotify }: Props) => {
   const { registerUser, error } = useAuth();
 
   const onSubmit = async (data: FormValues) => {
+    const preparedPhone = `+380${data.phone}`;
+    
     const success = await registerUser(
       data.name,
-      data.phone,
+      preparedPhone,
       data.password,
       data.repeatPassword
     );
@@ -49,19 +52,25 @@ export const SignUpModal = ({ onClose, onNotify }: Props) => {
   };
 
   const handleBackClick = () => {
+    onBack();
+  }
+
+  const handleCancelClick = () => {
+    reset();
     onClose();
   };
 
   return (
     <div className={styles.modal}>
-      <div>
+      <div className={styles.buttonContainerTop}>
+
         <button onClick={handleBackClick} className={styles.buttonBack}>
-          Скасувати
+          Назад
         </button>
       </div>
 
       <div className={styles.container}>
-        <h3 className={styles.title}>Авторизація</h3>
+        <h3 className={styles.title}>Реєстрація</h3>
 
         <p className={styles.description}></p>
 
@@ -83,7 +92,9 @@ export const SignUpModal = ({ onClose, onNotify }: Props) => {
             </div>
 
             {errors.name && (
-              <span className={styles.errorMessage}>{errors.name.message}</span>
+              <span className={styles.errorMessage}>
+                {errors.name.message}
+              </span>
             )}
           </div>
 
@@ -92,32 +103,27 @@ export const SignUpModal = ({ onClose, onNotify }: Props) => {
               Ваш номер телефону:
             </label>
 
-            <div className={styles.inputWrapper}>
-              {/* <Controller
-                name="phone"
-                control={control}
-                rules={{
-                  required: 'Введіть ваш номер телефону',
+            <div className={styles.input}>
+              <span className={styles.span}>+380</span>
+              <input
+                className={styles.phoneInput}
+                type="tel"
+                id="phone"
+                maxLength={9}
+                // placeholder="(__) ___ __ __"
+                {...register('phone', {
+                  required: 'Будь ласка, введіть номер телефону',
                   validate: (value) =>
-                    PHONE_REGEX.test(value) || 'Невірний формат номера',
-                }}
-                render={({ field }) => (
-                  <InputMask
-                    mask="+380(99)999-99-99"
-                    // alwaysShowMask
-                    maskChar="_"
-                    value={field.value}
-                    onChange={field.onChange}
-                  >
-                    {(inputProps: any) => (
-                      <input {...inputProps} className={styles.input} />
-                    )}
-                  </InputMask>
-                )}
-              /> */}
+                    PHONE_REGEX.test(value) || 'Номер має містити 9 цифр',
+                })}
+              />
             </div>
 
-            {errors.phone && <span>{errors.phone.message}</span>}
+            {errors.phone && (
+              <span className={styles.errorMessage}>
+                {errors.phone.message}
+              </span>
+            )}
           </div>
 
           <div className={styles.inputContainer}>
@@ -132,6 +138,7 @@ export const SignUpModal = ({ onClose, onNotify }: Props) => {
                 required: 'Будь ласка, введіть пароль',
               })}
             />
+
             {errors.password && (
               <span className={styles.errorMessage}>
                 {errors.password.message}
@@ -151,6 +158,7 @@ export const SignUpModal = ({ onClose, onNotify }: Props) => {
                 required: 'Будь ласка, повторіть пароль',
               })}
             />
+
             {errors.repeatPassword && (
               <span className={styles.errorMessage}>
                 {errors.repeatPassword.message}
@@ -158,9 +166,15 @@ export const SignUpModal = ({ onClose, onNotify }: Props) => {
             )}
           </div>
 
-          <button type="submit" className={styles.button}>
-            Підтвердити
-          </button>
+          <div className={styles.buttonContainerBottom}>
+            <button type="submit" className={styles.button}>
+              Підтвердити
+            </button>
+
+            <button onClick={handleCancelClick} className={styles.buttonCancel}>
+              Скасувати
+            </button>
+          </div>
         </form>
       </div>
     </div>

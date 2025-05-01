@@ -17,29 +17,3 @@
     padding: 20px;
   }
 }
-
-.container {
-  padding-inline: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 30px;
-}
-
-.text {
-  text-align: center;
-}
-
-.buttonBack {
-  @include mixins.back-button;
-}
-
-.button {
-  @include mixins.green-button;
-}
-
-.buttonWrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
