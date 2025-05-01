@@ -5,14 +5,20 @@ import { useState } from 'react';
 import { getArrowLeftIcon, getArrowRightIcon } from '../../utils/getImages';
 import { bookings } from '../../utils/bookings';
 import { Header } from '../../components/Header/Header';
-// import { BookingModal } from '../../components/BookingModal/BookingModal';
 import { UnauthModal } from '../../components/UnauthModal/UnauthModal';
 import { SignUpModal } from '../../components/SignUpModal/SignUpModal';
 import { NotificationModal } from '../../components/NotificationModal/NotificationModal';
+import { LoginModal } from '../../components/LoginModal/LoginModal';
+import { useAuth } from '../../context/AuthContext';
+import { BookingModal } from '../../components/BookingModal/BookingModal';
 
 dayjs.locale('uk');
 
+type ModalType = 'booking' | 'unauth' | 'signup' | 'login' | 'notification' | null;
+
 export const CalendarPage = () => {
+  const { user } = useAuth();
+
   const arrowLeftIcon = getArrowLeftIcon();
   const arrowRightIcon = getArrowRightIcon();
   const capitalizeFirstChar = (str: string) =>
@@ -22,12 +28,11 @@ export const CalendarPage = () => {
   const [currentMonth, setCurrentMonth] = useState(dayjs().startOf('month'));
   const [selectedDay, setSelectedDay] = useState<number | null>(today.date());
   const [showNotification, setShowNotification] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState<string | null>(
     null,
   );
-
+  const [modal, setModal] = useState<ModalType>(null);
+  
   const daysInMonth = currentMonth.daysInMonth();
   const firstDayOfMonth = currentMonth.startOf('month').day();
   const firstDayOffset = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1;
@@ -82,14 +87,17 @@ export const CalendarPage = () => {
       setShowNotification(true);
       setTimeout(() => setShowNotification(false), 5000);
     } else {
-      setIsModalOpen(true);
+      setModal(user? 'booking' : 'unauth');
     }
   };
 
   return (
     <div className={styles.page}>
       <div className={styles.wrapper}>
-        <Header />
+        <Header 
+          modal={modal}
+          setModal={setModal}
+        />
       </div>
 
       <div className={styles.calendar}>
@@ -201,37 +209,54 @@ export const CalendarPage = () => {
         )}
       </div>
 
-      {isModalOpen && (
+      {modal === 'booking' && user && (
         <div className={styles.modalOverlay}>
-          {/* <BookingModal 
+          <BookingModal 
             selectedDay={selectedDay ? currentMonth.date(selectedDay).format('YYYY-MM-DD') : null}
-            onClose={() => setIsModalOpen(false)}
-          /> */}
-
-          <UnauthModal
-            onClose={() => setIsModalOpen(false)}
-            onAuthClick={() => {
-              setIsModalOpen(false);
-              setIsSignUpModalOpen(true);
-            }}
+            onClose={() => setModal(null)}
           />
         </div>
       )}
 
-      {isSignUpModalOpen && (
+      {modal === 'unauth' && (
+        <div className={styles.modalOverlay}>
+          <UnauthModal
+            onClose={() => setModal(null)}
+            onSignupClick={() => setModal('signup')}
+            onLoginClick={() => setModal('login')}
+          />
+        </div>
+      )}
+
+      {modal === 'signup' && (
         <div className={styles.modalOverlay}>
           <SignUpModal
-            onNotify={(message) => setNotificationMessage(message)}
-            onClose={() => setIsSignUpModalOpen(false)}
+            onNotify={(message) => {
+              setModal('notification');
+              setNotificationMessage(message);
+            }}
+            onClose={() => setModal(null)}
+            onBack={() => setModal('unauth')}
           />
         </div>
       )}
 
-      {notificationMessage && (
+      {modal === 'login' && (
+        <div className={styles.modalOverlay}>
+          <LoginModal
+            onClose={() => setModal(null)}
+          />
+        </div>
+      )}
+
+      {modal === 'notification' && notificationMessage && (
         <div className={styles.modalOverlay}>
           <NotificationModal
             message={notificationMessage}
-            onClose={() => setNotificationMessage(null)}
+            onClose={() => {
+              setModal(null);
+              setNotificationMessage(null);
+            }}
           />
         </div>
       )}
