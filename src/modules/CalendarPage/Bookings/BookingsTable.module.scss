@@ -1,6 +1,6 @@
-@use '../../styles/typography' as typography;
-@use '../../styles/variables' as variables;
-@use '../../styles/mixins' as mixins;
+@use '../../../styles/variables' as variables;
+@use '../../../styles/mixins' as mixins;
+@use '../../../styles/typography' as typography;
 
 table {
   border-collapse: collapse;
@@ -15,7 +15,9 @@ td {
 }
 
 .page {
-
+  //width: 100vw;
+  //max-width: 1024px;
+  //min-height: 100vh;
   display: flex;
   flex-direction: column;
   // gap: 16px;
@@ -26,22 +28,11 @@ td {
   // }
 }
 
-.wrapper {
-  @include mixins.page-background;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
 
 .title {
   margin-block: 0;
 }
 
-.calendar {
-  // padding-inline: 30px;
-
-  @include mixins.page-background;
-}
 
 .calendarTop {
   display: flex;
@@ -73,11 +64,11 @@ td {
 }
 
 .disabled {
-  color: variables.$dark-grey-text;
-  background-color: variables.$grey-background;
+  color: $dark-grey-text;
+  background-color: $grey-background;
   cursor: not-allowed;
 
-  @include mixins.hover(color, variables.$dark-grey-text);
+  @include mixins.hover(color, $dark-grey-text);
 }
 
 .weekdays,
