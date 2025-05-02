@@ -8,11 +8,9 @@ export const Routing = () => (
   <AuthProvider>
     <BrowserRouter basename="/scheduler">
       <Routes>
-        <Route>
-          <Route index element={<HomePage />} />
-          <Route path="calendar" element={<CalendarPage />} />
-          <Route path="user-account" element={<UserPage />} />
-        </Route>
+        <Route index element={<HomePage />} />
+        <Route path="calendar" element={<CalendarPage />} />
+        <Route path="user-account" element={<UserPage />} />
       </Routes>
     </BrowserRouter>
   </AuthProvider>
