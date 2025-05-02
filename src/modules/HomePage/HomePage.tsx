@@ -1,23 +1,20 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
 import { locations } from '../../utils/locations';
 import styles from './HomePage.module.scss';
+import Card from './LocationCard/Card.tsx';
 
-export const HomePage: React.FC = () => {
+export type CourtLocation = {
+  id: number;
+  name: string;
+  address: string;
+  image: string;
+  mapsLink: string;
+};
+
+export const HomePage = () => {
   return (
     <div className={styles.page}>
-      {/* <h2 className={styles.title}>Оберіть локацію:</h2> */}
-
-      {locations.map((location) => (
-        <Link to="/calendar" key={location.id} className={styles.locationCard}>
-          <img
-            src={location.image}
-            alt="Location"
-            className={styles.locationImage}
-          />
-          <h3 className={styles.locationName}>{location.name}</h3>
-          <p className={styles.locationAddress}>{location.address}</p>
-        </Link>
+      {locations.map((location: CourtLocation) => (
+        <Card location={location} isAvailable={false} key={location.id} />
       ))}
     </div>
   );

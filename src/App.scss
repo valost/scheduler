@@ -18,7 +18,7 @@
 }
 
 body {
-  background-color: #f1f2f5;
+  background-color: variables.$background-color;
   // min-width: 375px;
   // max-width: 1280px;
   height: 100%;

@@ -1,21 +1,19 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { CalendarPage } from './modules/CalendarPage/CalendarPage';
 import { HomePage } from './modules/HomePage/HomePage';
 import { UserPage } from './modules/UserPage/UserPage';
-import { AuthProvider } from './context/AuthContext';
+import Layout from './modules/Layout/Layout.tsx';
 
 export const Routing = () => (
-  <AuthProvider>
-    <BrowserRouter basename="/scheduler">
-      <Routes>
-        <Route>
-          <Route index element={<HomePage />} />
-          <Route path="calendar" element={<CalendarPage />} />
-          <Route path="user-account" element={<UserPage />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
-  </AuthProvider>
+  <BrowserRouter basename="/scheduler">
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<HomePage />} />
+        <Route path="calendar" element={<CalendarPage />} />
+        <Route path="user-account" element={<UserPage />} />
+      </Route>
+    </Routes>
+  </BrowserRouter>
 );
 
 export default Routing;

@@ -6,6 +6,7 @@ const getImages = (name: string): string => {
 };
 
 export const getLocationImg = (): string => getImages('locationImg');
+export const getCourtImg = (name: string): string => getImages(name);
 
 const getIcons = (name: string): string => {
   return `${import.meta.env.BASE_URL}${ICONS_BASE_PATH}/${name}.svg`;
@@ -13,3 +14,4 @@ const getIcons = (name: string): string => {
 
 export const getArrowLeftIcon = (): string => getIcons('arrow-left');
 export const getArrowRightIcon = (): string => getIcons('arrow-right');
+export const getAvatarIcon = (): string => getIcons('avatar-tennis-ukraine');

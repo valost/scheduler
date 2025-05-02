@@ -1,0 +1,22 @@
+@use '../../styles/typography' as typography;
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as mixins;
+@use 'sass:color';
+
+.main {
+  width: 100%;
+  min-height: 100vh;
+  padding: 16px;
+  background-color: $background-fresh;
+
+  overflow-y: auto;
+
+  @include mixins.on-desktop {
+    padding: 40px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 24px;
+  }
+}
