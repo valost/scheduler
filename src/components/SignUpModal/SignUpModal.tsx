@@ -21,6 +21,7 @@ export const SignUpModal = ({ onBack, onClose, onNotify }: Props) => {
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
@@ -35,23 +36,26 @@ export const SignUpModal = ({ onBack, onClose, onNotify }: Props) => {
 
   const onSubmit = async (data: FormValues) => {
     const preparedPhone = `+380${data.phone}`;
+
+    if (data.password !== data.repeatPassword) return;
     
     const success = await registerUser(
       data.name,
       preparedPhone,
       data.password,
-      data.repeatPassword
     );
 
     if (success) {
-      onNotify('Ви успішно зареєстровані!');
+      onNotify('Ви успішно зареєстровані! ');
       onClose();
+
     } else {
       onNotify(error || 'Щось пішло не так. Спробуйте ще раз.');
     }
   };
 
   const handleBackClick = () => {
+    reset();
     onBack();
   }
 
@@ -71,8 +75,6 @@ export const SignUpModal = ({ onBack, onClose, onNotify }: Props) => {
 
       <div className={styles.container}>
         <h3 className={styles.title}>Реєстрація</h3>
-
-        <p className={styles.description}></p>
 
         <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
           <div className={styles.inputContainer}>
@@ -156,6 +158,8 @@ export const SignUpModal = ({ onBack, onClose, onNotify }: Props) => {
               id="repeatPassword"
               {...register('repeatPassword', {
                 required: 'Будь ласка, повторіть пароль',
+                validate: (value) =>
+                  value === watch('password') || 'Паролі не співпадають',
               })}
             />
 

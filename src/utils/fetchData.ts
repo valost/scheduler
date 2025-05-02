@@ -25,3 +25,24 @@ export function postData<T>(url: string, data: unknown): Promise<T> {
     throw new Error(`Failed to load data from ${url}`);
   });
 }
+
+export function postDataWithToken<T>(
+  url: string,
+  data: unknown,
+  token: string
+): Promise<T> {
+  return fetch(BASE_URL + url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorisation: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  }).then((response) => {
+    if (response.ok) {
+      return response.json();
+    }
+
+    throw new Error(`Failed to load data from ${url}`)
+  });
+}

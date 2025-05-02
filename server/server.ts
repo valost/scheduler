@@ -4,8 +4,9 @@ import dotenv from 'dotenv';
 import userRoutes from './routes/userRoutes.ts';
 import bookingRoutes from './routes/bookingRoutes.ts';
 import locationRoutes from './routes/locationRoutes.ts';
+import loginRoutes from './routes/loginRoutes.ts';
 import cors from 'cors';
-import validateTelegramData from './telegram-auth/validateTelegramData.ts';
+// import validateTelegramData from './telegram-auth/validateTelegramData.ts';
 import fs from 'fs';
 import https from 'https';
 
@@ -58,7 +59,6 @@ app.get('/', (_, res) => {
   res.send('API is running...');
 });
 
-// Basic route
 app.get('/api/hello', (_, res) => {
   res.json({ message: 'Hello from Express!' });
 });
@@ -72,29 +72,24 @@ app.use('/api/bookings', bookingRoutes);
 // Locations route
 app.use('/api/locations', locationRoutes);
 
-// Start the server
-// app.listen(PORT, () => {
-//   console.log(`Express server running at http://localhost:${PORT}/`);
+// Login route
+app.use('/api/login', loginRoutes);
+
+
+
+/// TELEGRAM ///
+
+// app.get('/login', (req: any, res: any) => {
+//   console.log('Received query:', req.query); // Повні дані від Telegram
+//   if (validateTelegramData(req.query as any)) {
+//     const { first_name, last_name, username } = req.query as any;
+//     console.log('Validated user:', { first_name, last_name, username });
+//     res.json({
+//       message: `Вітаємо, ${first_name} ${last_name || ''} (@${username || 'немає'})!`,
+//       user: { first_name, last_name, username },
+//     });
+//   } else {
+//     console.log('Validation failed for:', req.query);
+//     res.status(401).json({ error: 'Помилка авторизації' });
+//   }
 // });
-
-// app.use(
-//   cors({
-//     origin: ['https://oauth.telegram.org', 'http://localhost:3000'], // Додай свій домен
-//     credentials: true,
-//   }),
-// );
-
-app.get('/login', (req: any, res: any) => {
-  console.log('Received query:', req.query); // Повні дані від Telegram
-  if (validateTelegramData(req.query as any)) {
-    const { first_name, last_name, username } = req.query as any;
-    console.log('Validated user:', { first_name, last_name, username });
-    res.json({
-      message: `Вітаємо, ${first_name} ${last_name || ''} (@${username || 'немає'})!`,
-      user: { first_name, last_name, username },
-    });
-  } else {
-    console.log('Validation failed for:', req.query);
-    res.status(401).json({ error: 'Помилка авторизації' });
-  }
-});

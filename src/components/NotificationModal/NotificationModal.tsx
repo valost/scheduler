@@ -12,7 +12,7 @@ export const NotificationModal = ({ message, onClose }: Props) => {
         <p className={styles.text}>{message}</p>
 
         <button className={styles.button} onClick={() => onClose()}>
-          До календаря
+          Увійти до системи
         </button>
       </div>
     </div>

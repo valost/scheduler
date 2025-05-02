@@ -12,7 +12,6 @@ router.post('/', async (req, res) => {
     if (error instanceof Error) {
       res.status(400).json({ error: error.message });
     } else {
-      // Handle unexpected error types
       res.status(500).json({ error: 'An unexpected error occurred' });
     }
   }
