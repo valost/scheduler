@@ -20,9 +20,9 @@ export const CalendarPage = () => {
   const [selectedDay, setSelectedDay] = useState<number | null>(dayjs().date());
   const [modal, setModal] = useState<ModalType>(null);
   const [showNotification, setShowNotification] = useState(false);
-  const [notificationMessage, setNotificationMessage] = useState<string | null>(
-    null,
-  );
+  // const [notificationMessage, setNotificationMessage] = useState<string | null>(
+  //   null,
+  // );
 
   const location = locations.find((loc) => loc._id === locationId)!;
 
