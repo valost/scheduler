@@ -1,20 +1,17 @@
+import { useNavigate } from 'react-router-dom';
 import styles from './UnauthModal.module.scss';
 
 type Props = {
   onClose: () => void;
-  onSignupClick: () => void;
-  onLoginClick: () => void;
 };
 
-export const UnauthModal = ({ onClose, onSignupClick, onLoginClick }: Props) => {
-  const handleBackClick = () => {
-    onClose();
-  };
+export const UnauthModal = ({ onClose }: Props) => {
+  const navigate = useNavigate();
 
   return (
     <div className={styles.modal}>
       <div>
-        <button onClick={handleBackClick} className={styles.buttonBack}>
+        <button onClick={() => onClose()} className={styles.buttonBack}>
           Назад
         </button>
       </div>
@@ -27,20 +24,14 @@ export const UnauthModal = ({ onClose, onSignupClick, onLoginClick }: Props) => 
         <div className={styles.buttonWrapper}>
           <button
             className={styles.button}
-            onClick={() => {
-              console.log('Auth button clicked');
-              onLoginClick();
-            }}
+            onClick={() => navigate('/login')}
           >
             Увійти
           </button>
 
           <button
             className={styles.button}
-            onClick={() => {
-              console.log('Auth button clicked');
-              onSignupClick();
-            }}
+            onClick={() => navigate('register')}
           >
             Зареєструватися
           </button>

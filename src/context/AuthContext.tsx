@@ -18,10 +18,7 @@ type AuthContextType = {
   loading: boolean;
   error: string;
   setUser: (user: User | null) => void;
-  loginUser: (
-    phone: string,
-    password: string
-  ) => Promise<boolean>;
+  loginUser: (phone: string, password: string) => Promise<boolean>;
   logoutUser: () => void;
 };
 
@@ -45,11 +42,7 @@ export const AuthProvider = ({ children }: Props) => {
   const [error, setError] = useState('');
 
   const registerUser = useCallback(
-    async (
-      name: string,
-      phone: string,
-      password: string,
-    ): Promise<boolean> => {
+    async (name: string, phone: string, password: string): Promise<boolean> => {
       setLoading(true);
       setError('');
 
@@ -94,10 +87,7 @@ export const AuthProvider = ({ children }: Props) => {
   );
 
   const loginUser = useCallback(
-    async(
-      phone: string,
-      password: string,
-    ) : Promise<boolean> => {
+    async (phone: string, password: string): Promise<boolean> => {
       setLoading(true);
       setError('');
 
@@ -108,7 +98,7 @@ export const AuthProvider = ({ children }: Props) => {
           token: string;
           user: User;
         }>('/api/login', payload);
-        
+
         localStorage.setItem('token', response.token);
         setUser(response.user);
         setError('');
@@ -136,7 +126,7 @@ export const AuthProvider = ({ children }: Props) => {
   const logoutUser = () => {
     localStorage.removeItem('token');
     setUser(null);
-  }
+  };
 
   return (
     <AuthContext.Provider
@@ -147,7 +137,7 @@ export const AuthProvider = ({ children }: Props) => {
         setUser,
         registerUser,
         loginUser,
-        logoutUser
+        logoutUser,
       }}
     >
       {children}

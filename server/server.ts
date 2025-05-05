@@ -75,8 +75,6 @@ app.use('/api/locations', locationRoutes);
 // Login route
 app.use('/api/login', loginRoutes);
 
-
-
 /// TELEGRAM ///
 
 // app.get('/login', (req: any, res: any) => {

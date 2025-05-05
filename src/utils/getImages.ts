@@ -15,3 +15,5 @@ const getIcons = (name: string): string => {
 export const getArrowLeftIcon = (): string => getIcons('arrow-left');
 export const getArrowRightIcon = (): string => getIcons('arrow-right');
 export const getAvatarIcon = (): string => getIcons('avatar-tennis-ukraine');
+export const getLoginIcon = (): string => getIcons('login');
+export const getCloseMenuIcon = (): string => getIcons('close-menu');

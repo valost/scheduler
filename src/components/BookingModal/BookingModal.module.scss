@@ -31,13 +31,14 @@
 }
 
 .description {
-  margin: 0;
+  margin-bottom: 20px;
 }
 
 .form {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  align-items: center;
 }
 
 .buttonBack {
@@ -46,4 +47,6 @@
 
 .button {
   @include mixins.green-button;
+
+  margin-top: 20px;
 }

@@ -29,7 +29,7 @@ export function postData<T>(url: string, data: unknown): Promise<T> {
 export function postDataWithToken<T>(
   url: string,
   data: unknown,
-  token: string
+  token: string,
 ): Promise<T> {
   return fetch(BASE_URL + url, {
     method: 'POST',
@@ -43,6 +43,6 @@ export function postDataWithToken<T>(
       return response.json();
     }
 
-    throw new Error(`Failed to load data from ${url}`)
+    throw new Error(`Failed to load data from ${url}`);
   });
 }
