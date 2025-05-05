@@ -5,15 +5,17 @@ import { User } from '../models/User.ts';
 const router = express.Router();
 
 router.post('/', async (req, res: any) => {
-  console.log('Regist route hit')
-  
+  console.log('Regist route hit');
+
   try {
     const { name, phone, password } = req.body;
 
     const existingUser = await User.findOne({ phone });
 
     if (existingUser) {
-      return res.status(409).json({ error: 'Номер телефону вже зареєстрований' });
+      return res
+        .status(409)
+        .json({ error: 'Номер телефону вже зареєстрований' });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -23,7 +25,7 @@ router.post('/', async (req, res: any) => {
       phone,
       password: hashedPassword,
     });
-    
+
     await newUser.save();
     res.status(201).json({ message: 'Користувач успішно зареєструвався' });
   } catch (error: unknown) {

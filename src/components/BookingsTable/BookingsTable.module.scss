@@ -1,0 +1,23 @@
+@use '../../styles/typography' as typography;
+@use '../../styles/variables' as variables;
+@use '../../styles/mixins' as mixins;
+
+table {
+  border-collapse: collapse;
+  border: none;
+}
+
+th,
+td {
+  border: 1px solid variables.$grey-background;
+  text-align: center;
+  // border-radius: 7px;
+}
+
+.book {
+  padding: 10px;
+  border: 1px solid variables.$grey-background;
+  border-radius: 12px;
+  text-align: center;
+}
+

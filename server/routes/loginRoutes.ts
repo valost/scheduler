@@ -6,9 +6,9 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 const router = express.Router();
-const JWT_SECRET = process.env.JWT_SECRET as string;;
+const JWT_SECRET = process.env.JWT_SECRET as string;
 
-router.post('/', async (req, res: any) => {  
+router.post('/', async (req, res: any) => {
   const { phone, password } = req.body;
 
   try {
@@ -24,15 +24,18 @@ router.post('/', async (req, res: any) => {
       return res.status(401).json({ message: 'Неправильний пароль' });
     }
 
-    const token = jwt.sign(
-      { id: user._id, phone: user.phone },
-      JWT_SECRET,
-      { expiresIn: '1h' }
-    );
+    const token = jwt.sign({ id: user._id, phone: user.phone }, JWT_SECRET, {
+      expiresIn: '1h',
+    });
 
-    res.status(200).json({ token, user: { id: user._id, phone: user.phone, name: user.name } });
+    res.status(200).json({
+      token,
+      user: { id: user._id, phone: user.phone, name: user.name },
+    });
   } catch (err) {
-    res.status(500).json({ message: 'Авторізація не була успішною', error: err });
+    res
+      .status(500)
+      .json({ message: 'Авторізація не була успішною', error: err });
   }
 });
 

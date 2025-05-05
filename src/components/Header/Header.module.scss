@@ -3,34 +3,120 @@
 @use '../../styles/mixins' as mixins;
 
 .header {
-  width: 100%;
   display: flex;
-  flex-direction: column;
-}
-
-.headerTop {
-  display: flex;
+  height: 67px;
   justify-content: space-between;
   align-items: center;
+  padding: 0.5rem 1rem;
+  background-color: white;
+  border-radius: 20px;
+  margin-inline: 16px;
+  position: sticky;
+  // top: 16px;
+  margin-top: 16px;
+  z-index: 100;
 }
 
-.buttonUser {
-  @include mixins.orange-button;
+.logoLink {
+  text-decoration: none;
+  color: inherit;
 }
 
-.buttonBack {
-  @include mixins.back-button;
+.logo {
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: #222;
+  transition: color 0.3s ease;
 }
 
-.modalOverlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: variables.$semi-transparent-background;
+.logo:hover {
+  color: #007bff;
+}
+
+.menu {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+  gap: 1rem;
+
+  a {
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
+  }
+}
+
+.avatarWrapper {
+  position: relative;
+  cursor: pointer;
+  // width: 48px;
+  // height: 48px;
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  transition: box-shadow 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 0 0 2px #007bff44;
+  }
+}
+
+.login {
+}
+
+.dropdown {
+  position: absolute;
+  top: 42px;
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 999;
+  min-width: 150px;
+  animation: fadeIn 0.2s ease-in-out;
+
+  a,
+  button {
+    background: none;
+    border: none;
+    text-align: left;
+    font-size: 0.95rem;
+    cursor: pointer;
+    color: #222;
+    padding: 4px 0;
+    text-decoration: none;
+  }
+
+  a:hover,
+  button:hover {
+    color: #007bff;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .menu {
+    display: none; // якшо ти плануєш показувати меню тільки з аватарки
+  }
+}
+
+.loginButton {
+  @include mixins.back-button;
 }

@@ -1,0 +1,35 @@
+@use '../../styles/typography' as typography;
+@use '../../styles/variables' as variables;
+@use '../../styles/mixins' as mixins;
+
+.page {
+  background-color: variables.$white-background;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border-radius: variables.$border-radius;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.buttonBack {
+  @include mixins.back-button;
+}
+
+.buttonExit {
+  @include mixins.orange-button;
+}
+
+.title {
+  margin-block: 0;
+  text-align: center;
+
+  // @include mixins.on-desktop {
+  //   font-size: 24px;
+  // }
+}

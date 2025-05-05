@@ -1,47 +1,92 @@
-import { Link } from 'react-router-dom';
 import styles from './Header.module.scss';
-import { useAuth } from '../../context/AuthContext';
-import { UnauthModal } from '../UnauthModal/UnauthModal';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import {
+  getAvatarIcon,
+  getCloseMenuIcon,
+  getLoginIcon,
+} from '../../utils/getImages.ts';
+import { useAuth } from '../../context/AuthContext.tsx';
+import { AsideMenu } from '../AsideMenu/AsideMenu.tsx';
 
-type Props = {
-  modal: 'booking' | 'unauth' | 'signup' | 'login' | 'notification' | null;
-  setModal: React.Dispatch<React.SetStateAction<Props['modal']>>;
-}
-
-export const Header = ({ modal, setModal }: Props) => {
+const Header = () => {
   const { user } = useAuth();
+  const [isOpen, setIsOpen] = useState(false);
 
-  const handleAuthButtonClick = () => {
-    setModal('unauth');
+  const handleMenuVisibility = () => {
+    setIsOpen((prev: boolean) => !prev);
   };
-  
-  return (
-    <div className={styles.header}>
-      <div className={styles.headerTop}>
-        <Link to="/" className={styles.buttonBack}>
-          Назад
-        </Link>
 
+  const menuOverflowStatus = (menuVisibility: boolean) => {
+    if (menuVisibility) {
+      document.documentElement.style.overflow = 'hidden';
+    } else {
+      document.documentElement.style.overflow = 'auto';
+    }
+  };
+
+  useEffect(() => {
+    menuOverflowStatus(isOpen);
+  }, [isOpen]);
+
+  return (
+    <header className={styles.header}>
+      <Link to="/" className={styles.logoLink}>
+        <div className={styles.logo}>Scheduler</div>
+      </Link>
+
+      <Link
+        to="/"
+        className={styles.avatarWrapper}
+        onClick={handleMenuVisibility}
+      >
         {user ? (
-          <Link to="/user-account" className={styles.buttonUser}>
-            Мій кабінет
-          </Link>
+          <img src={getAvatarIcon()} alt="User" className={styles.avatar} />
+        ) : isOpen ? (
+          <img
+            src={getCloseMenuIcon()}
+            alt="Close menu"
+            className={styles.login}
+          />
         ) : (
-          <button onClick={handleAuthButtonClick} className={styles.buttonUser}>
-            Увійти
-          </button>
+          <img src={getLoginIcon()} alt="Login" className={styles.login} />
         )}
-        
-        {modal === 'unauth' && (
-          <div className={styles.modalOverlay}>
-            <UnauthModal 
-              onClose={() => setModal(null)}
-              onSignupClick={() => setModal('signup')}
-              onLoginClick={() => setModal('login')}
-            />
+      </Link>
+
+      <AsideMenu
+        isOpen={isOpen}
+        handleMenuVisibility={handleMenuVisibility}
+        user={!!user}
+      />
+
+      {/* {user ? (
+        <>
+          <div className={styles.avatarWrapper} onClick={() => setIsOpen(!isOpen)}>
+            <img src={getAvatarIcon()} alt="User" className={styles.avatar} />
+            {isOpen && (
+              <div className={styles.dropdown}>
+                <Link to="/calendar">Календар</Link>
+                <Link to="/user-account">Кабінет</Link>
+                <button onClick={() => console.log('Logout')}>Вийти</button>
+              </div>
+            )}
           </div>
-        )}
-      </div>
-    </div>
+
+          <nav className={`${styles.menu} ${isOpen ? styles.open : ''}`}>
+            <Link to="/calendar">Календар</Link>
+            <Link to="/user-account">Кабінет</Link>
+          </nav>
+        </>
+      ) : (
+        <Link
+          to="/"
+          className={styles.loginButton}
+        >
+          Увійти
+        </Link>
+      )} */}
+    </header>
   );
 };
+
+export default Header;

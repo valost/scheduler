@@ -1,7 +1,8 @@
 export interface Booking {
-  _id: number;
+  _id: string;
   userName: string;
-  userId: number;
+  userId: string;
+  courtId: string;
   startTime: string;
   endTime: string;
 }

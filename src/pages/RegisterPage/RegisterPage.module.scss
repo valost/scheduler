@@ -1,0 +1,115 @@
+@use '../../styles/typography' as typography;
+@use '../../styles/variables' as variables;
+@use '../../styles/mixins' as mixins;
+
+.page {
+  background-color: variables.$white-background;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border-radius: 20px;
+
+  @include mixins.on-desktop {
+    width: 540px;
+    padding: 20px;
+  }
+}
+
+.container {
+  padding-inline: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.inputContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.inputLabel {
+  text-align: center;
+}
+
+.input {
+  outline: none;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid variables.$grey-background;
+  border-radius: 14px;
+  cursor: pointer;
+  text-align: center;
+  font-size: 16px;
+  margin-bottom: 16px;
+  background-color: variables.$white-background;
+
+  @include mixins.hover(box-shadow, 0px 4px 10px 0px rgba(21, 71, 15, 0.3));
+}
+
+.phoneInput {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 16px;
+}
+
+.span {
+  font-size: 16px;
+
+  @include mixins.on-desktop {
+    margin-inline: 75px 5px;
+  }
+}
+
+.errorMessage {
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+
+  font-size: 10px;
+  color: red;
+}
+
+.buttonBack {
+  @include mixins.back-button;
+}
+
+.buttonCancel {
+  @include mixins.green-button;
+
+  background-color: variables.$white-background;
+  border: 1px solid variables.$red-notification-text;
+}
+
+.button {
+  @include mixins.green-button;
+}
+
+.buttonContainerTop {
+  display: flex;
+  justify-content: space-between;
+}
+
+.buttonContainerBottom {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.notification {
+  font-size: 16px;
+  text-align: center;
+}

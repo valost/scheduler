@@ -1,7 +1,7 @@
 import styles from './BookingModal.module.scss';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import { useState } from 'react';
-import { Dropdown } from '../Dropdown/Dropdown';
+import { TimePickDropdown } from '../TimePickDropdown/TimePickDropdown';
 
 type Props = {
   selectedDay: string | null;
@@ -9,45 +9,22 @@ type Props = {
 };
 
 export const BookingModal = ({ selectedDay, onClose }: Props) => {
-  const [startTime, setStartTime] = useState<string | null>(null);
-  const [endTime, setEndTime] = useState<string | null>(null);
+  const [startTime, setStartTime] = useState<Dayjs | null>(null);
+  const [endTime, setEndTime] = useState<Dayjs | null>(null);
 
-  const generateTimeOptions = () => {
-    const options = [];
-    let time = dayjs(selectedDay).hour(5).minute(0).startOf('minute');
-    const closingTime = dayjs(selectedDay).hour(22).minute(0).startOf('minute');
+  // const generateTimeOptions = () => {
+  //   const options = [];
+  //   let time = dayjs(selectedDay).hour(5).minute(0).startOf('minute');
+  //   const closingTime = dayjs(selectedDay).hour(22).minute(0).startOf('minute');
 
-    while (time.isBefore(closingTime) || time.isSame(closingTime)) {
-      const formattedTime = time.format('HH:mm');
-      options.push(formattedTime);
-      time = time.add(30, 'minute');
-    }
+  //   while (time.isBefore(closingTime) || time.isSame(closingTime)) {
+  //     const formattedTime = time.format('HH:mm');
+  //     options.push(formattedTime);
+  //     time = time.add(30, 'minute');
+  //   }
 
-    return options;
-  };
-
-  const timeOptions = generateTimeOptions();
-  const filteredStartTimeOptions = timeOptions.filter(
-    (time) => time !== '22:00',
-  );
-
-  const filteredEndTimeOptions = startTime
-    ? timeOptions.filter((time) => {
-        const [startHour, startMinute] = startTime.split(':').map(Number);
-        const [endHour, endMinute] = time.split(':').map(Number);
-
-        const startTotalMinutes = startHour * 60 + startMinute;
-        const endTotalMinutes = endHour * 60 + endMinute;
-        const result = endTotalMinutes >= startTotalMinutes + 30;
-
-        return result;
-      })
-    : timeOptions;
-
-  const handleStartTimeChange = (newTime: string) => {
-    setStartTime(newTime);
-    setEndTime(null);
-  };
+  //   return options;
+  // };
 
   const handleBackClick = () => {
     setStartTime(null);
@@ -71,19 +48,40 @@ export const BookingModal = ({ selectedDay, onClose }: Props) => {
         </p>
 
         <form className={styles.form}>
-          <Dropdown
+          <TimePickDropdown 
             label="Початок тренування:"
-            options={filteredStartTimeOptions}
-            selected={startTime}
-            onSelect={handleStartTimeChange}
+            value={startTime}
+            onChange={(newValue) => {
+              setStartTime(newValue);
+              setEndTime(null);
+            }}
+            shouldDisableTime={(value, view) => {
+              if (view === 'minutes') {
+                return value.minute() % 30 !== 0;
+              }
+
+              const hour = value.hour();
+              return hour < 5 || hour >= 22;
+            }}
           />
 
-          <Dropdown
+          <TimePickDropdown 
             label="Кінець тренування:"
-            options={filteredEndTimeOptions}
-            selected={endTime}
-            onSelect={setEndTime}
+            value={endTime}
+            onChange={setEndTime}
             disabled={!startTime}
+            shouldDisableTime={(value, view) => {
+              if (!startTime) return true;
+              
+              const selected = dayjs(value);
+              const diff = selected.diff(startTime, 'minute');
+              
+              if (view === 'minutes') {
+                return value.minute() % 30 !== 0;
+              }
+
+              return diff < 30 || selected.hour() < startTime.hour();
+            }}
           />
 
           <button className={styles.button} disabled={!endTime}>
