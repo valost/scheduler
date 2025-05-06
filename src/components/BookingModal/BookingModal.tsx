@@ -1,31 +1,123 @@
 import styles from './BookingModal.module.scss';
 import dayjs, { Dayjs } from 'dayjs';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { TimePickDropdown } from '../TimePickDropdown/TimePickDropdown';
+import { Booking, CreateBooking } from '../../types/Booking';
+import { getData, postData } from '../../utils/fetchData';
+import { shouldDisableEndTime, shouldDisableStartTime } from '../../utils/timeFunctions';
 
 type Props = {
-  selectedDay: string | null;
+  userName: string;
+  userId: string;
+  courtId: string;
+  selectedDay: Dayjs;
   onClose: () => void;
+  onBookingSuccess?: () => void;
 };
 
-export const BookingModal = ({ selectedDay, onClose }: Props) => {
+export const BookingModal = ({ 
+  userName,
+  userId,
+  courtId,
+  selectedDay, 
+  onClose,
+  onBookingSuccess 
+}: Props) => {
   const [startTime, setStartTime] = useState<Dayjs | null>(null);
   const [endTime, setEndTime] = useState<Dayjs | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [bookings, setBookings] = useState<Booking[]>([]);
+  // const [availableStartTimes, setAvailableStartTimes] = useState<Dayjs[]>([]);
+  // const [availableEndTimes, setAvailableEndTimes] = useState<Dayjs[]>([]);
 
-  // const generateTimeOptions = () => {
-  //   const options = [];
-  //   let time = dayjs(selectedDay).hour(5).minute(0).startOf('minute');
-  //   const closingTime = dayjs(selectedDay).hour(22).minute(0).startOf('minute');
+  console.log(bookings, error);
 
-  //   while (time.isBefore(closingTime) || time.isSame(closingTime)) {
-  //     const formattedTime = time.format('HH:mm');
-  //     options.push(formattedTime);
-  //     time = time.add(30, 'minute');
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getData<Booking[]>(
+          `/api/bookings?courtId=${courtId}&date=${selectedDay}`
+        );
+        setBookings(response);
+      } catch (err) {
+        setError('Не вдалося завантажити бронювання');
+      }
+    }
+
+    fetchData();
+  }, [courtId, selectedDay])
+
+  // useEffect(() => {
+  //   if (!startTime) {
+  //     setAvailableEndTimes(getAvailableTimes(bookings, selectedDay).endTimes);
+  //     return;
   //   }
 
-  //   return options;
-  // };
+  //   const filteredEndTimes = getAvailableTimes(bookings, selectedDay).endTimes.filter((time) =>
+  //     time.isAfter(startTime)
+  //   );
+    
+  //   setAvailableEndTimes(filteredEndTimes);
 
+  //   if (endTime && !filteredEndTimes.some((time) => time.isSame(endTime))) {
+  //     setEndTime(null);
+  //   }
+  // }, [startTime, bookings, selectedDay]);
+
+  const bookCourt = async (booking: CreateBooking) => {
+    try {
+      const response = await postData<Booking>('/api/bookings', booking);
+
+      return response;
+    } catch (error) {
+      throw new Error(error instanceof Error ? error.message : 'Не вдалося забронювати корт')
+    }
+  }
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+
+    if (!startTime || !endTime) {
+      setError('Будь ласка оберіть час бронювання');
+      return;
+    }
+
+    try {
+      const startDateTime = dayjs(selectedDay)
+        .set('hour', startTime.hour())
+        .set('minute', startTime.minute())
+        .set('second', 0)
+        .toISOString();
+
+      const endDateTime = dayjs(selectedDay)
+        .set('hour', endTime.hour())
+        .set('minute', endTime.minute())
+        .set('second', 0)
+        .toISOString();
+
+      const booking: CreateBooking = {
+        userName,
+        userId,
+        courtId,
+        startTime: startDateTime,
+        endTime: endDateTime,
+      }
+
+      console.log(booking);
+
+      await bookCourt(booking);
+
+      setError(null);
+      setStartTime(null);
+      setEndTime(null);
+
+      if (onBookingSuccess) onBookingSuccess();
+      onClose();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Не вдалося забронювати корт');
+    }
+  }
+  
   const handleBackClick = () => {
     setStartTime(null);
     setEndTime(null);
@@ -47,7 +139,7 @@ export const BookingModal = ({ selectedDay, onClose }: Props) => {
           Забронювати корт на {dayjs(selectedDay).format('D MMMM YYYY')}
         </p>
 
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={handleSubmit}>
           <TimePickDropdown 
             label="Початок тренування:"
             value={startTime}
@@ -55,14 +147,7 @@ export const BookingModal = ({ selectedDay, onClose }: Props) => {
               setStartTime(newValue);
               setEndTime(null);
             }}
-            shouldDisableTime={(value, view) => {
-              if (view === 'minutes') {
-                return value.minute() % 30 !== 0;
-              }
-
-              const hour = value.hour();
-              return hour < 5 || hour >= 22;
-            }}
+            shouldDisableTime={(value, view) => shouldDisableStartTime(value, view)}
           />
 
           <TimePickDropdown 
@@ -70,21 +155,10 @@ export const BookingModal = ({ selectedDay, onClose }: Props) => {
             value={endTime}
             onChange={setEndTime}
             disabled={!startTime}
-            shouldDisableTime={(value, view) => {
-              if (!startTime) return true;
-              
-              const selected = dayjs(value);
-              const diff = selected.diff(startTime, 'minute');
-              
-              if (view === 'minutes') {
-                return value.minute() % 30 !== 0;
-              }
-
-              return diff < 30 || selected.hour() < startTime.hour();
-            }}
+            shouldDisableTime={(value, view) => shouldDisableEndTime(value, view, startTime)}
           />
 
-          <button className={styles.button} disabled={!endTime}>
+          <button className={styles.button} disabled={!startTime && !endTime}>
             Підтвердити
           </button>
         </form>

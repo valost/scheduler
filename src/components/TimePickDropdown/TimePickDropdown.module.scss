@@ -2,6 +2,6 @@
 @use '../../styles/variables' as variables;
 @use '../../styles/mixins' as mixins;
 
-:global(.MuiPickersPopper-root .MuiPaper-root) {
-  border-radius: 14px !important;
+.MuiPickersListItem-root.Mui-disabled {
+  display: none !important;
 }

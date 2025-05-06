@@ -1,8 +1,9 @@
 // import styles from './TimePickDropdown.module.scss';
 import { TextField, Box } from '@mui/material';
-import { LocalizationProvider, TimePicker, TimeView } from '@mui/x-date-pickers';
+import { DesktopTimePicker, LocalizationProvider, TimeView } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { Dayjs } from 'dayjs';
+// import { disableMinutes } from '../../utils/timeFunctions';
 
 type Props = {
   label: string;
@@ -22,10 +23,11 @@ export const TimePickDropdown = ({
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Box sx={{ borderRadius: '14px' }}>
-        <TimePicker
+        <DesktopTimePicker
           label={label}
           value={value}
           onChange={onChange}
+          minutesStep={30}
           ampm={false}
           slots={{ textField: TextField }}
           disabled={disabled}

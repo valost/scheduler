@@ -31,3 +31,7 @@ h3 {
     @include typography.title-web;
   }
 }
+
+.MuiPickersListItem-root.Mui-disabled {
+  display: none !important; /* Hide the disabled menu items */
+}
