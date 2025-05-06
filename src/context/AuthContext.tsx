@@ -41,6 +41,8 @@ export const AuthProvider = ({ children }: Props) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
+  console.log(user);
+
   const registerUser = useCallback(
     async (name: string, phone: string, password: string): Promise<boolean> => {
       setLoading(true);

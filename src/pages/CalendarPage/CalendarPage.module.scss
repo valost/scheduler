@@ -69,6 +69,11 @@ td {
 
 .buttonBook {
   @include mixins.green-button;
+
+  position: fixed;
+  left: 50%;
+  bottom: 40px;
+  transform: translateX(-50%);
 }
 
 .disabled {
