@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import styles from './UnauthModal.module.scss';
+import { getCloseMenuIcon } from '../../utils/getImages';
 
 type Props = {
   onClose: () => void;
@@ -10,9 +11,9 @@ export const UnauthModal = ({ onClose }: Props) => {
 
   return (
     <div className={styles.modal}>
-      <div>
-        <button onClick={() => onClose()} className={styles.buttonBack}>
-          Назад
+      <div className={styles.buttonContainer}>
+        <button onClick={() => onClose()} className={styles.buttonClose}>
+          <img src={getCloseMenuIcon()} alt="Close" />
         </button>
       </div>
 
@@ -22,16 +23,13 @@ export const UnauthModal = ({ onClose }: Props) => {
         </p>
 
         <div className={styles.buttonWrapper}>
-          <button
-            className={styles.button}
-            onClick={() => navigate('/login')}
-          >
+          <button className={styles.button} onClick={() => navigate('/login')}>
             Увійти
           </button>
 
           <button
             className={styles.button}
-            onClick={() => navigate('register')}
+            onClick={() => navigate('/register')}
           >
             Зареєструватися
           </button>

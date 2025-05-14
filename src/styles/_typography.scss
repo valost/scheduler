@@ -3,19 +3,19 @@
 @mixin main-text-mobile {
   font-family: 'Nunito', sans-serif;
   font-weight: 300;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 @mixin date-numbers-mobile {
   font-family: 'Nunito', sans-serif;
   font-weight: 400;
-  font-size: 16px;
+  font-size: 18px;
 }
 
 @mixin title-mobile {
   font-family: 'Nunito', sans-serif;
   font-weight: 700;
-  font-size: 18px;
+  font-size: 20px;
 }
 
 /*** WEB ***/
@@ -23,7 +23,7 @@
 @mixin main-text-web {
   font-family: 'Nunito', sans-serif;
   font-weight: 300;
-  font-size: 16px;
+  font-size: 18px;
 }
 
 @mixin date-numbers-web {

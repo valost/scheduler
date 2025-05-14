@@ -2,34 +2,19 @@
 @use '../../styles/variables' as variables;
 @use '../../styles/mixins' as mixins;
 
-table {
-  border-collapse: collapse;
-  border: none;
-}
-
-th,
-td {
-  border: 1px solid variables.$grey-background;
-  text-align: center;
-  // border-radius: 7px;
-}
-
 .page {
   display: flex;
   flex-direction: column;
-  // gap: 16px;
   margin: 0 auto;
-
-  // @include mixins.on-desktop {
-  //   font-size: 16px;
-  // }
+  margin-bottom: 60px;
 }
 
 .wrapper {
-  @include mixins.page-background;
   display: flex;
   flex-direction: column;
   gap: 16px;
+
+  @include mixins.page-background;
 }
 
 .title {
@@ -37,8 +22,6 @@ td {
 }
 
 .calendar {
-  // padding-inline: 30px;
-
   @include mixins.page-background;
 }
 
@@ -72,7 +55,7 @@ td {
 
   position: fixed;
   left: 50%;
-  bottom: 40px;
+  bottom: 15px;
   transform: translateX(-50%);
 }
 
@@ -99,19 +82,6 @@ td {
     @include typography.date-numbers-web;
   }
 }
-
-.workday {
-}
-
-.weekend {
-}
-
-// .days {
-//   display: grid;
-//   grid-template-columns: repeat(7, 1fr);
-//   gap: 2px;
-//   text-align: center;
-// }
 
 .day {
   padding: 8px;
@@ -179,8 +149,6 @@ td {
 
 .book {
   padding: 10px;
-  border: 1px solid variables.$grey-background;
-  border-radius: 12px;
   text-align: center;
 }
 
@@ -198,14 +166,5 @@ td {
 }
 
 .modalOverlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: variables.$semi-transparent-background;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+  @include mixins.modal-overlay;
 }

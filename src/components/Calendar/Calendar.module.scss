@@ -66,31 +66,26 @@
     height: 64px;
   }
 
-  &.hasBooking {
-    position: relative;
-  
-    &::after {
-      content: '';
-      position: absolute;
-      top: 5px;
-      right: 5px;
-      width: 8px;
-      height: 8px;
-      background-color: variables.$has-booking;
-      border-radius: 50%;
-  
-      @include mixins.on-desktop {
-        left: 5px;
-        width: 12px;
-        height: 12px;
-      }
-    }
-  }
-}
+  // &.hasRelevantBooking {
+  //   position: relative;
 
-.currentDay {
-  background-color: variables.$today-highlight;
-  border: 1px solid variables.$today-highlight;
+  //   &::after {
+  //     content: '';
+  //     position: absolute;
+  //     top: 5px;
+  //     right: 5px;
+  //     width: 8px;
+  //     height: 8px;
+  //     background-color: variables.$has-booking;
+  //     border-radius: 50%;
+
+  //     @include mixins.on-desktop {
+  //       left: 5px;
+  //       width: 12px;
+  //       height: 12px;
+  //     }
+  //   }
+  // }
 }
 
 .workdayTile {
@@ -102,31 +97,62 @@
   cursor: pointer;
 }
 
+.currentDay {
+  background-color: variables.$today-highlight;
+  border: 1px solid variables.$today-highlight;
+}
+
 .selectedDay {
   background-color: variables.$selected-day;
   border: 1px solid variables.$selected-day;
 }
 
-// .hasBooking {
-//   position: relative;
+.pastDay {
+   color: variables.$disabled-color;
+   cursor: pointer;
+}
 
-//   &::after {
-//     content: '';
-//     position: absolute;
-//     top: 5px;
-//     right: 5px;
-//     width: 8px;
-//     height: 8px;
-//     background-color: variables.$has-booking;
-//     border-radius: 50%;
+.hasPastBooking {
+  position: relative;
 
-//     @include mixins.on-desktop {
-//       left: 5px;
-//       width: 12px;
-//       height: 12px;
-//     }
-//   }
-// }
+  &::after {
+    content: '';
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 8px;
+    height: 8px;
+    background-color: variables.$has-past-booking;
+    border-radius: 50%;
+
+    @include mixins.on-desktop {
+      left: 5px;
+      width: 12px;
+      height: 12px;
+    }
+  }
+}
+
+.hasRelevantBooking {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 8px;
+    height: 8px;
+    background-color: variables.$has-booking;
+    border-radius: 50%;
+
+    @include mixins.on-desktop {
+      left: 5px;
+      width: 12px;
+      height: 12px;
+    }
+  }
+}
 
 .empty {
   border: none;
@@ -152,3 +178,13 @@
   list-style-type: none;
 }
 
+.disabledDay {
+  color: variables.$disabled-color;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+.pastDay {
+  color: variables.$disabled-color;
+  cursor: pointer;
+}

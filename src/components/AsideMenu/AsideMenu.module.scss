@@ -17,6 +17,10 @@
   margin: 0 auto;
   padding: 16px;
   background: variables.$background-gradient;
+
+  @include mixins.on-desktop {
+    padding-inline: 200px;
+  }
 }
 
 .menuOpened {

@@ -6,9 +6,6 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  // font-family: 'Nunito', sans-serif;
-  // font-weight: 300;
-  // font-size: 14px;
 
   @include typography.main-text-mobile;
 
@@ -30,8 +27,4 @@ h3 {
   @include mixins.on-desktop {
     @include typography.title-web;
   }
-}
-
-.MuiPickersListItem-root.Mui-disabled {
-  display: none !important; /* Hide the disabled menu items */
 }

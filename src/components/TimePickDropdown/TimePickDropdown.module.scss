@@ -1,7 +1,0 @@
-@use '../../styles/typography' as typography;
-@use '../../styles/variables' as variables;
-@use '../../styles/mixins' as mixins;
-
-.MuiPickersListItem-root.Mui-disabled {
-  display: none !important;
-}
