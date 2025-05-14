@@ -3,6 +3,16 @@
 @use '../../styles/mixins' as mixins;
 
 .page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  @include mixins.on-desktop {
+    margin-bottom: 60px;
+  }
+}
+
+.container {
   background-color: variables.$white-background;
   padding: 20px;
   display: flex;
@@ -17,12 +27,10 @@
   gap: 16px;
 }
 
-.buttonBack {
-  @include mixins.back-button;
-}
+.button {
+  @include mixins.green-button;
 
-.buttonExit {
-  @include mixins.orange-button;
+  text-decoration: none;
 }
 
 .title {
@@ -32,4 +40,9 @@
   // @include mixins.on-desktop {
   //   font-size: 24px;
   // }
+}
+
+.text {
+  text-align: center;
+  font-size: 16px;
 }

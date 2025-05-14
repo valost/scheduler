@@ -1,95 +1,94 @@
-import dayjs, { Dayjs } from 'dayjs';
 import { TimeView } from '@mui/x-date-pickers';
-import { Booking } from '../types/Booking';
+import { Dayjs } from 'dayjs';
 
-export const shouldDisableStartTime = (value: Dayjs, view: TimeView): boolean => {
-  if (view === 'minutes') {
-    return value.minute() % 30 !== 0; // Disable non-30 minute intervals
-  }
+export const disableStarts = (
+  bookedStarts: Dayjs[],
+  bookedEnds: Dayjs[],
+) => {
+  return (value: Dayjs, view: TimeView) => {
+    const hour = value.hour();
+    const minute = value.minute();
 
-  const hour = value.hour();
-  return hour < 5 || hour >= 23; // Disable hours outside of the allowed range (5:00 AM to 10:30 PM)
+    return bookedStarts.some((start, index) => {
+      const end = bookedEnds[index];
+
+      const startHour = start.hour();
+      const startMinute = start.minute();
+      const endHour = end.hour();
+      const endMinute = end.minute();
+
+      const isAfterOrEqualStart =
+        hour > startHour || (hour === startHour && minute >= startMinute);
+
+      const isBeforeEnd =
+        hour < endHour || (hour === endHour && minute < endMinute);
+
+      const isInsideBookedRange = isAfterOrEqualStart && isBeforeEnd;
+
+      if (isInsideBookedRange) {
+        return true;
+      }
+
+      if (view === 'hours') {
+        return (
+          (hour === startHour && minute >= startMinute) ||
+          (hour === endHour && minute < endMinute) ||
+          (hour > startHour && hour < endHour)
+        );
+      }
+
+      if (view === 'minutes') {
+        return isInsideBookedRange;
+      }
+
+      return false;
+    });
+  };
 };
 
-export const shouldDisableEndTime = (
-  value: Dayjs,
-  view: TimeView,
-  startTime: Dayjs | null
-): boolean => {
-  if (!startTime) return true; // Disable end time if start time is not set
 
-  const selected = value;
-  const diff = selected.diff(startTime, 'minute');
+export const disableEnds = (
+  bookedStarts: Dayjs[],
+  bookedEnds: Dayjs[],
+) => {
+  return (value: Dayjs, view: TimeView) => {
+    const hour = value.hour();
+    const minute = value.minute();
 
-  if (view === 'minutes') {
-    return value.minute() % 30 !== 0; // Disable non-30 minute intervals
-  }
+    return bookedStarts.some((start, index) => {
+      const end = bookedEnds[index];
 
-  if (diff < 30) {
-    return true; // End time must be at least 30 minutes later than start time
-  }
+      const startHour = start.hour();
+      const startMinute = start.minute();
+      const endHour = end.hour();
+      const endMinute = end.minute();
 
-  // Ensure the end time is not before the start time
-  if (selected.isBefore(startTime)) {
-    return true;
-  }
+      const isSameAsStart = hour === startHour && minute === startMinute;
 
-  return false;
+      if (isSameAsStart) {
+        return false;
+      }
+
+      const isAfterStart =
+        hour > startHour || (hour === startHour && minute > startMinute);
+      const isBeforeOrEqualEnd =
+        hour < endHour || (hour === endHour && minute <= endMinute);
+
+      const isInsideBookedRange = isAfterStart && isBeforeOrEqualEnd;
+
+      if (view === 'hours') {
+        return (
+          (hour === startHour && minute > startMinute) ||
+          (hour === endHour && minute <= endMinute) ||
+          (hour > startHour && hour < endHour)
+        );
+      }
+
+      if (view === 'minutes') {
+        return isInsideBookedRange;
+      }
+
+      return false;
+    });
+  };
 };
-
-// Generate all possible 30-minute time slots for a day
-const generateTimeSlots = (selectedDay: string): Dayjs[] => {
-  const times: Dayjs[] = [];
-  const startHour = 5;
-  const endHour = 23; // End of day (but last valid session starts at 22:30)
-
-  let currentTime = dayjs(selectedDay).set('hour', startHour).set('minute', 0).set('second', 0);
-
-  while (currentTime.hour() < endHour || (currentTime.hour() === endHour && currentTime.minute() === 0)) {
-    if (currentTime.add(30, 'minute').hour() <= endHour) {
-      times.push(currentTime);
-    }
-    currentTime = currentTime.add(30, 'minute');
-  }
-
-  return times;
-};
-
-// Check if a time slot overlaps with any existing bookings
-const isTimeBooked = (time: Dayjs, bookings: Booking[]): boolean => {
-  return bookings.some((booking) => {
-    const bookingStart = dayjs(booking.startTime);
-    const bookingEnd = dayjs(booking.endTime);
-    return time.isSame(bookingStart) || time.isSame(bookingEnd) || (time.isAfter(bookingStart) && time.isBefore(bookingEnd));
-  });
-};
-
-export const getAvailableTimes = (
-  bookings: Booking[],
-  selectedDay: string
-): { startTimes: Dayjs[]; endTimes: Dayjs[] } => {
-  const allTimes = generateTimeSlots(selectedDay); // 30-min steps: 5:00 → 23:00
-  const today = dayjs();
-
-  const isToday = dayjs(selectedDay).isSame(today, 'day');
-
-  const startTimes = allTimes.filter((start) => {
-    if (isToday && start.isBefore(today)) return false;
-
-    const end = start.add(30, 'minute');
-
-    // Check both start and 30-min later end slot are free
-    return (
-      !isTimeBooked(start, bookings) &&
-      !isTimeBooked(end, bookings)
-    );
-  });
-
-  const endTimes = allTimes.filter((end) => {
-    if (isToday && end.isBefore(today)) return false;
-    return !isTimeBooked(end, bookings);
-  });
-
-  return { startTimes, endTimes };
-};
-

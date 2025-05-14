@@ -11,8 +11,7 @@
   border-radius: 20px;
 
   @include mixins.on-desktop {
-    width: 540px;
-    padding: 20px;
+    margin-bottom: 60px;
   }
 }
 
@@ -28,6 +27,10 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+
+    @include mixins.on-desktop {
+    gap: 20px;
+  }
 }
 
 .inputContainer {
@@ -79,7 +82,12 @@
   white-space: nowrap;
 
   font-size: 10px;
-  color: red;
+  color: variables.$red-notification-text;
+
+  @include mixins.on-desktop {
+    font-size: 12px;
+    bottom: -7px;
+  }
 }
 
 .buttonBack {

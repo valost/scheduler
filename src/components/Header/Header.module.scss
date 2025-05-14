@@ -15,6 +15,10 @@
   // top: 16px;
   margin-top: 16px;
   z-index: 100;
+
+  @include mixins.on-desktop {
+    margin-inline: 200px;
+  }
 }
 
 .logoLink {
@@ -23,24 +27,14 @@
 }
 
 .logo {
-  font-weight: 700;
-  font-size: 1.5rem;
   color: #222;
-  transition: color 0.3s ease;
-}
+  transition: color 0.2s ease;
 
-.logo:hover {
-  color: #007bff;
-}
+  @include mixins.hover(transform, scale(1.05));
+  @include typography.title-mobile;
 
-.menu {
-  display: flex;
-  gap: 1rem;
-
-  a {
-    text-decoration: none;
-    color: black;
-    font-weight: 500;
+  @include mixins.on-desktop {
+    @include typography.title-web;
   }
 }
 
@@ -56,67 +50,11 @@
   height: 48px;
   border-radius: 50%;
   object-fit: cover;
-  transition: box-shadow 0.2s ease;
+  transition: transform 0.2s ease;
 
-  &:hover {
-    box-shadow: 0 0 0 2px #007bff44;
-  }
+  @include mixins.hover(transform, scale(1.05));
 }
 
-.login {
-}
-
-.dropdown {
-  position: absolute;
-  top: 42px;
-  right: 0;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 0.5rem 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  z-index: 999;
-  min-width: 150px;
-  animation: fadeIn 0.2s ease-in-out;
-
-  a,
-  button {
-    background: none;
-    border: none;
-    text-align: left;
-    font-size: 0.95rem;
-    cursor: pointer;
-    color: #222;
-    padding: 4px 0;
-    text-decoration: none;
-  }
-
-  a:hover,
-  button:hover {
-    color: #007bff;
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@media (max-width: 768px) {
-  .menu {
-    display: none; // якшо ти плануєш показувати меню тільки з аватарки
-  }
-}
-
-.loginButton {
-  @include mixins.back-button;
+.icon {
+  @include mixins.hover(transform, scale(1.1));
 }

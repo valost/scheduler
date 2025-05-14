@@ -11,7 +11,7 @@
   overflow-y: auto;
 
   @include mixins.on-desktop {
-    padding: 40px;
+    padding-inline: 200px;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;

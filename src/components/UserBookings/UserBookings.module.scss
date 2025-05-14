@@ -13,13 +13,13 @@
   justify-content: space-between;
   border: 1px solid variables.$grid-lines;
   border-radius: variables.$border-radius;
-  padding: 15px;
+  padding: 10px;
 }
 
 .bookingInfo {
   width: 100%;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -27,18 +27,12 @@
   font-size: 16px;
 }
 
-.isUser {
-  border: 1px solid variables.$today-highlight;
-  background: variables.$today-highlight;
+.deleteButton {
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
-.bookingEmpty {
-  font-size: 16px;
-  text-align: center;
-}
-
-.isPast {
-  color: variables.$disabled-color;
-  background-color: variables.$white-background;
-  border: 1px solid variables.$grid-lines;
+.icon {
+  @include mixins.hover(transform, scale(1.1));
 }

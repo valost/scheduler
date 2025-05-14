@@ -1,13 +1,14 @@
-@use '../../styles/variables' as *;
-@use 'sass:color';
+@use '../../styles/typography' as typography;
+@use '../../styles/variables' as variables;
+@use '../../styles/mixins' as mixins;
 
 .card {
-  background-color: $white-background;
-  border-radius: $border-radius;
-  padding: 1.2rem;
+  background-color: variables.$white-background;
+  border-radius: variables.$border-radius;
+  padding: 20px;
   box-shadow: 0 4px 12px rgba(144, 238, 144, 0.15);
   transition: all 0.25s ease;
-  font-family: $font-family;
+  font-family: variables.$font-family;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -23,6 +24,10 @@
   &:active {
     box-shadow: 0 4px 12px rgba(144, 238, 144, 0.15);
     transform: translateY(0);
+  }
+
+  @include mixins.on-tablet {
+    padding: 40px;
   }
 }
 
@@ -100,7 +105,6 @@
 
 .locationImage {
   width: 100%;
-  aspect-ratio: 4 / 3;
   border-radius: 16px;
   object-fit: cover;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
@@ -121,25 +125,10 @@
 }
 
 .name {
-  font-size: 1.3rem;
-  font-weight: 700;
-  letter-spacing: 0.5px;
   text-transform: uppercase;
-  margin: 0;
-  transition: color 0.3s ease;
-  white-space: nowrap;
 }
 
 .address {
-  font-size: 0.95rem;
-  color: color.scale($text-color, $lightness: -25%);
-  font-style: italic;
+  color: variables.$near-black-text;
   text-decoration: none;
-  transition: color 0.3s ease;
-  white-space: nowrap;
-
-  &:hover {
-    color: #007aff;
-    text-decoration: underline;
-  }
 }

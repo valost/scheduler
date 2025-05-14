@@ -46,10 +46,10 @@ const Header = () => {
           <img
             src={getCloseMenuIcon()}
             alt="Close menu"
-            className={styles.login}
+            className={styles.icon}
           />
         ) : (
-          <img src={getLoginIcon()} alt="Login" className={styles.login} />
+          <img src={getLoginIcon()} alt="Login" className={styles.icon} />
         )}
       </Link>
 
@@ -58,33 +58,6 @@ const Header = () => {
         handleMenuVisibility={handleMenuVisibility}
         user={!!user}
       />
-
-      {/* {user ? (
-        <>
-          <div className={styles.avatarWrapper} onClick={() => setIsOpen(!isOpen)}>
-            <img src={getAvatarIcon()} alt="User" className={styles.avatar} />
-            {isOpen && (
-              <div className={styles.dropdown}>
-                <Link to="/calendar">Календар</Link>
-                <Link to="/user-account">Кабінет</Link>
-                <button onClick={() => console.log('Logout')}>Вийти</button>
-              </div>
-            )}
-          </div>
-
-          <nav className={`${styles.menu} ${isOpen ? styles.open : ''}`}>
-            <Link to="/calendar">Календар</Link>
-            <Link to="/user-account">Кабінет</Link>
-          </nav>
-        </>
-      ) : (
-        <Link
-          to="/"
-          className={styles.loginButton}
-        >
-          Увійти
-        </Link>
-      )} */}
     </header>
   );
 };

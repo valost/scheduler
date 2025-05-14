@@ -34,7 +34,7 @@
 
 @mixin green-button {
   margin: 0 auto;
-  padding: 10px;
+  padding: 15px;
   width: 240px;
   display: flex;
   justify-content: center;
@@ -46,12 +46,6 @@
   transition: box-shadow 0.3s ease;
   cursor: pointer;
   font-size: 18px;
-
-  @include typography.date-numbers-mobile;
-
-  @include on-desktop {
-    @include typography.date-numbers-web;
-  }
 
   &:active {
     color: variables.$near-black-text;
@@ -70,34 +64,6 @@
     color: variables.$dark-grey-text;
     background-color: variables.$grey-background;
     cursor: not-allowed;
-  }
-}
-
-@mixin orange-button {
-  height: 32px;
-  padding-inline: 10px;
-  color: variables.$near-black-text;
-  border: 1px solid variables.$selected-day;
-  background-color: variables.$selected-day;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  transition: box-shadow 0.3s ease;
-  text-decoration: none;
-  cursor: pointer;
-
-  &:hover {
-    box-shadow: 0px 4px 10px 0px rgba(21, 71, 15, 0.3);
-    border: none;
-    color: variables.$near-black-text;
-  }
-
-  &:focus {
-    outline: none;
-  }
-
-  &:active {
-    color: variables.$near-black-text;
   }
 }
 
@@ -128,7 +94,20 @@
   padding: 15px;
 
   @include on-desktop {
-    margin: 40px;
+    margin-block: 20px;
     padding: 40px;
   }
+}
+
+@mixin modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: variables.$semi-transparent-background;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }

@@ -1,45 +1,98 @@
 import styles from './Calendar.module.scss';
 import dayjs from 'dayjs';
-import {
-  getArrowLeftIcon,
-  getArrowRightIcon,
-} from '../../utils/getImages.ts';
-import { useState } from 'react';
+import { getArrowLeftIcon, getArrowRightIcon } from '../../utils/getImages.ts';
 import { capitalizeFirstChar } from '../../utils/helperFunctions.ts';
 import { Booking } from '../../types/Booking.ts';
 
 type Props = {
+  bookings: Booking[];
   selectedDay: number | null;
   setSelectedDay: (day: number | null) => void;
-  bookings: Booking[];
+  currentMonth: dayjs.Dayjs;
+  setCurrentMonth: (month: dayjs.Dayjs) => void;
 };
 
-const Calendar = ({ selectedDay, setSelectedDay, bookings }: Props) => {
+const Calendar = ({ 
+  bookings,
+  selectedDay, 
+  setSelectedDay, 
+  currentMonth,
+  setCurrentMonth,
+}: Props) => {
   const today = dayjs();
-  const [currentMonth, setCurrentMonth] = useState(dayjs().startOf('month'));
-
   const daysInMonth = currentMonth.daysInMonth();
   const firstDayOfMonth = currentMonth.startOf('month').day();
   const firstDayOffset = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1;
   const daysArray = Array.from({ length: daysInMonth }, (_, i) => i + 1);
   const calendarDays = [...Array(firstDayOffset).fill(null), ...daysArray];
   const formattedDate = capitalizeFirstChar(currentMonth.format('MMMM YYYY'));
-
   const twoWeeksFromNow = today.add(14, 'day');
 
-  const relevantBookings = bookings
-    .filter((booking) => {
-      const bookingDate = dayjs(booking.startTime);
+  const relevantBookings = bookings.filter(
+    (b) => dayjs(b.startTime).isAfter(today, 'day')
+  );
+  const pastBookings = bookings.filter(
+    (b) => dayjs(b.startTime).isBefore(today, 'day')
+  );
 
-      return (
-        bookingDate.isSame(today, 'day') ||
-        (bookingDate.isAfter(today) && bookingDate.isBefore(twoWeeksFromNow)) ||
-        bookingDate.isSame(twoWeeksFromNow, 'day')
+  console.log()
+
+  const renderedDays = calendarDays.map((day, index) => {
+    const dateObj = day ? currentMonth.date(day).endOf('day') : null;
+    const isPastDate = dateObj ? dateObj.isBefore(today, 'day') : false;
+    const isAfterTwoWeeks = dateObj
+      ? dateObj.isAfter(twoWeeksFromNow, 'day')
+      : false;
+    const isWeekend = index % 7 === 5 || index % 7 === 6;
+
+    const hasRelevantBooking =
+      day &&
+      relevantBookings.some(
+        (b) =>
+          dayjs(b.startTime).date() === day &&
+          dayjs(b.startTime).isSame(currentMonth, 'month'),
       );
-    })
-    .sort((a, b) => dayjs(a.startTime).diff(dayjs(b.startTime)));
 
-  console.log('relevantBookings:', relevantBookings);
+    const hasPastBooking =
+      day &&
+      pastBookings.some(
+        (b) =>
+          dayjs(b.startTime).date() === day &&
+          dayjs(b.startTime).isSame(currentMonth, 'month')
+      );
+
+    const isToday =
+      day === today.date() &&
+      currentMonth.isSame(today, 'month') &&
+      day !== selectedDay;
+
+    const isSelected = day === selectedDay && selectedDay !== null;
+
+    const dayClasses = [
+      styles.day,
+      day === null
+        ? styles.empty
+        : isWeekend
+          ? styles.weekendTile
+          : styles.workdayTile,
+      isPastDate ? styles.pastDay : '',
+      isToday ? styles.currentDay : '',
+      hasPastBooking ? styles.hasPastBooking : '',
+      hasRelevantBooking ? styles.hasRelevantBooking : '',
+      isSelected ? styles.selectedDay : '',
+      isAfterTwoWeeks ? styles.disabledDay : '',
+    ]
+      .filter(Boolean)
+      .join(' ');
+
+    return {
+      day,
+      index,
+      className: dayClasses,
+      isAfterTwoWeeks,
+      isPastDate
+    };
+  });
 
   const handlePrevMonthClick = () => {
     setCurrentMonth(currentMonth.subtract(1, 'month'));
@@ -52,9 +105,7 @@ const Calendar = ({ selectedDay, setSelectedDay, bookings }: Props) => {
   };
 
   const handleDayClick = (day: number | null) => {
-    if (day !== null) {
-      setSelectedDay(day === selectedDay ? null : day);
-    }
+    setSelectedDay(day === selectedDay ? null : day);
   };
 
   return (
@@ -82,40 +133,19 @@ const Calendar = ({ selectedDay, setSelectedDay, bookings }: Props) => {
       </div>
 
       <div className={styles.days}>
-        {calendarDays.map((day, index) => {
-          const hasBooking =
-            day &&
-            relevantBookings.some(
-              (b) =>
-                dayjs(b.startTime).date() === day &&
-                dayjs(b.startTime).isSame(currentMonth, 'month'),
-            );
-          return (
-            <div
-              key={index}
-              className={`${styles.day} ${
-                day === null
-                  ? styles.empty
-                  : index % 7 === 5 || index % 7 === 6
-                    ? styles.weekendTile
-                    : styles.workdayTile
-              } ${
-                day === dayjs().date() &&
-                currentMonth.isSame(dayjs(), 'month') &&
-                day !== selectedDay
-                  ? styles.currentDay
-                  : ''
-              } ${hasBooking ? styles.hasBooking : ''} ${
-                day === selectedDay && selectedDay !== null
-                  ? styles.selectedDay
-                  : ''
-              }`}
-              onClick={() => handleDayClick(day)}
-            >
-              {day || ''}
-            </div>
-          );
-        })}
+        {renderedDays.map(({ day, index, className, isAfterTwoWeeks }) => (
+          <div
+            key={index}
+            className={className}
+            onClick={() => {
+              if (day !== null && !isAfterTwoWeeks) {
+                handleDayClick(day);
+              }
+            }}
+          >
+            {day || ''}
+          </div>
+        ))}
       </div>
     </div>
   );

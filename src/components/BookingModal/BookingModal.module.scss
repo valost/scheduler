@@ -41,12 +41,31 @@
   align-items: center;
 }
 
-.buttonBack {
-  @include mixins.back-button;
+.buttonWrapper {
+  position: relative;
+}
+
+.formError {
+  position: absolute;
+  font-size: 14px;
+  color: red;
+  text-align: center;
+  bottom: 60px;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: end;
+}
+
+.buttonClose {
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
 .button {
   @include mixins.green-button;
 
-  margin-top: 20px;
+  margin-top: 35px;
 }

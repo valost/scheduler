@@ -17,3 +17,4 @@ export const getArrowRightIcon = (): string => getIcons('arrow-right');
 export const getAvatarIcon = (): string => getIcons('avatar-tennis-ukraine');
 export const getLoginIcon = (): string => getIcons('login');
 export const getCloseMenuIcon = (): string => getIcons('close-menu');
+export const getDeleteIcon = (): string => getIcons('delete');

@@ -46,3 +46,15 @@ export function postDataWithToken<T>(
     throw new Error(`Failed to load data from ${url}`);
   });
 }
+
+export function deleteData<T>(url: string): Promise<T> {
+  return fetch(BASE_URL + url, {
+    method: 'DELETE',
+  }).then((response) => {
+    if (response.ok) {
+      return response.json();
+    }
+
+    throw new Error(`Failed to delete data at ${url}`);
+  });
+}

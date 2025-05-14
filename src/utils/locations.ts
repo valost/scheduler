@@ -12,14 +12,14 @@ export const locations = [
     _id: '2',
     name: 'Табір',
     image: '',
-    address: '98 Random Str, Kyiv',
+    address: 'Адреса відсутня',
     mapLink: 'https://maps.app.goo.gl/H1arsaJyAUF1D7AS6',
   },
   {
     _id: '3',
     name: 'Проліски',
     image: '',
-    address: '97 Random Str, Kyiv',
+    address: 'Адреса відсутня',
     mapLink: 'https://maps.app.goo.gl/H1arsaJyAUF1D7AS6',
   },
 ];

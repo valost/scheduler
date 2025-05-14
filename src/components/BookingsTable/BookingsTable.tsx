@@ -1,39 +1,47 @@
 import dayjs from 'dayjs';
 import { Booking } from '../../types/Booking';
 import styles from './BookingsTable.module.scss';
+import { User } from '../../types/User';
 
 type Props = {
   bookings: Booking[];
+  user: User | null;
 };
 
-const BookingsTable = ({ bookings }: Props) => {
+const BookingsTable = ({ bookings, user }: Props) => {
+  const now = dayjs();
+
   return (
     <>
       {bookings.length > 0 ? (
-        <table>
-          <thead>
-            <tr>
-              <th>Дата</th>
-              <th>Час</th>
-              <th>Ім'я</th>
-            </tr>
-          </thead>
+        <ul className={styles.bookingList}>
+          {bookings.map((booking) => {
+            const isPast = dayjs(booking.startTime).isBefore(now, 'minute');
 
-          <tbody>
-            {bookings.map((booking) => (
-              <tr key={booking._id}>
-                <td>{dayjs(booking.startTime).format('D/MM')}</td>
-                <td>
-                  {dayjs(booking.startTime).format('HH:mm')} -{' '}
-                  {dayjs(booking.endTime).format('HH:mm')}
-                </td>
-                <td>{booking.userName}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+            return (
+              <li
+                key={booking._id}
+                className={`${styles.bookingItem} 
+                  ${booking.userId === user?.id ? styles.isUser : ''}
+                  ${isPast ? styles.isPast : ''}
+                `}
+              >
+                <div className={styles.bookingInfo}>
+                  <span className={styles.text}>
+                    {dayjs(booking.startTime).format('D/MM')}
+                  </span>
+                  <span className={styles.text}>
+                    {dayjs(booking.startTime).format('HH:mm')} –{' '}
+                    {dayjs(booking.endTime).format('HH:mm')}
+                  </span>
+                  <span className={styles.text}>{booking.userName}</span>
+                </div>
+              </li>
+            )  
+          })}
+        </ul>
       ) : (
-        <p className={styles.book}>Бронювання відсутні</p>
+        <p className={styles.bookingEmpty}>На цю дату бронювання відсутні</p>
       )}
     </>
   );
