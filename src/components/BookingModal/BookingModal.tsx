@@ -170,31 +170,36 @@ export const BookingModal = ({
         </p>
 
         <form className={styles.form} onSubmit={handleSubmit}>
+          <div className={styles.clockWrapper}>
+            <div className={styles.clock}>
+              <label>Початок:</label>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <StyledClock
+                  ampm={false}
+                  value={startTime}
+                  onChange={(newValue) => setStartTime(newValue)}
+                  minTime={dayjs().set('hour', 4).set('minute', 30)}
+                  maxTime={dayjs().set('hour', 22).set('minute', 30)}
+                  shouldDisableTime={disableStarts(bookedStarts, bookedEnds)}
+                />
+              </LocalizationProvider>
+            </div>
+            
+            <div className={styles.clock}>
+              <label>Кінець:</label>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <StyledClock
+                  ampm={false}
+                  value={endTime}
+                  onChange={(newValue) => setEndTime(newValue)}
+                  minTime={dayjs().set('hour', 5).set('minute', 0)}
+                  maxTime={dayjs().set('hour', 23).set('minute', 0)}
+                  shouldDisableTime={disableEnds(bookedStarts, bookedEnds)}
+                />
+              </LocalizationProvider>
+            </div>
+          </div>
           
-          <label>Початок тренування:</label>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <StyledClock
-              ampm={false}
-              value={startTime}
-              onChange={(newValue) => setStartTime(newValue)}
-              minTime={dayjs().set('hour', 4).set('minute', 30)}
-              maxTime={dayjs().set('hour', 22).set('minute', 30)}
-              shouldDisableTime={disableStarts(bookedStarts, bookedEnds)}
-            />
-          </LocalizationProvider>
-
-          <label>Кінець тренування:</label>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <StyledClock
-              ampm={false}
-              value={endTime}
-              onChange={(newValue) => setEndTime(newValue)}
-              minTime={dayjs().set('hour', 5).set('minute', 0)}
-              maxTime={dayjs().set('hour', 23).set('minute', 0)}
-              shouldDisableTime={disableEnds(bookedStarts, bookedEnds)}
-            />
-          </LocalizationProvider>
-
           <div className={styles.buttonWrapper}>
             {formError && <p className={styles.formError}>{formError}</p>}
             
