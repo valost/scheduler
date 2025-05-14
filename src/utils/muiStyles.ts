@@ -3,7 +3,7 @@ import { DigitalClock } from '@mui/x-date-pickers';
 
 export const StyledClock = styled(DigitalClock)({
   width: 80,
-  height: 100,
+  height: 250,
   overflowY: 'auto',
   '& .MuiDigitalClockItem-root': {
     padding: '4px 8px',
