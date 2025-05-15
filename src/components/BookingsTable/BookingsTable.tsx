@@ -9,14 +9,43 @@ type Props = {
 };
 
 const BookingsTable = ({ bookings, user }: Props) => {
-  const now = dayjs();
+  const sortedBookings = [...bookings].sort((a, b) => {
+    const now = dayjs();
+
+    const aStart = dayjs(a.startTime);
+    const aEnd = dayjs(a.endTime);
+    const bStart = dayjs(b.startTime);
+    const bEnd = dayjs(b.endTime);
+
+    const aIsOngoing = now.isAfter(aStart) && now.isBefore(aEnd);
+    const bIsOngoing = now.isAfter(bStart) && now.isBefore(bEnd);
+
+    const aIsPast = now.isAfter(aEnd);
+    const bIsPast = now.isAfter(bEnd);
+
+    // Ongoing comes first
+    if (aIsOngoing && !bIsOngoing) return -1;
+    if (!aIsOngoing && bIsOngoing) return 1;
+
+    // Then future bookings
+    if (!aIsPast && bIsPast) return -1;
+    if (aIsPast && !bIsPast) return 1;
+
+    // Otherwise sort by startTime
+    return aStart.diff(bStart);
+  });
 
   return (
     <>
-      {bookings.length > 0 ? (
+      {sortedBookings.length > 0 ? (
         <ul className={styles.bookingList}>
-          {bookings.map((booking) => {
-            const isPast = dayjs(booking.startTime).isBefore(now, 'minute');
+          {sortedBookings.map((booking) => {
+            const now = dayjs();
+            const isOngoing =
+              now.isAfter(dayjs(booking.startTime)) &&
+              now.isBefore(dayjs(booking.endTime));
+
+            const isPast = dayjs(booking.endTime).isBefore(now);
 
             return (
               <li
@@ -24,11 +53,14 @@ const BookingsTable = ({ bookings, user }: Props) => {
                 className={`${styles.bookingItem} 
                   ${booking.userId === user?.id ? styles.isUser : ''}
                   ${isPast ? styles.isPast : ''}
+                  ${isOngoing ? styles.bookingItem : ''}
                 `}
               >
                 <div className={styles.bookingInfo}>
                   <span className={styles.text}>
-                    {dayjs(booking.startTime).format('D/MM')}
+                    {isOngoing
+                      ? 'Зараз 🎾'
+                      : dayjs(booking.startTime).format('D/MM')}
                   </span>
                   <span className={styles.text}>
                     {dayjs(booking.startTime).format('HH:mm')} –{' '}
@@ -37,7 +69,7 @@ const BookingsTable = ({ bookings, user }: Props) => {
                   <span className={styles.text}>{booking.userName}</span>
                 </div>
               </li>
-            )  
+            );
           })}
         </ul>
       ) : (

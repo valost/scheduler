@@ -64,7 +64,11 @@ export const UserPage = () => {
 
         {nearestBooking ? (
           <p className={styles.text}>
-            {`Твоє найближче бронювання у 📍 ${formatCourtName(nearestBooking.courtId)} на ${dayjs(nearestBooking.startTime).format('D/MM')} о ${dayjs(nearestBooking.startTime).format('HH:mm')}`}
+            {`Твоє найближче бронювання у 📍 ${formatCourtName(nearestBooking.courtId)} ${
+              dayjs(nearestBooking.startTime).isSame(dayjs(), 'day')
+                ? `сьогодні о ${dayjs(nearestBooking.startTime).format('HH:mm')}`
+                : `на ${dayjs(nearestBooking.startTime).format('D/MM')} о ${dayjs(nearestBooking.startTime).format('HH:mm')}`
+            }`}
           </p>
         ) : (
           <>

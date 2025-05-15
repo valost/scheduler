@@ -13,7 +13,11 @@ type Props = {
 
 type AuthContextType = {
   user: User | null;
-  registerUser: (name: string, phone: string, password: string) => Promise<boolean>;
+  registerUser: (
+    name: string,
+    phone: string,
+    password: string,
+  ) => Promise<boolean>;
   loading: boolean;
   error: string;
   setUser: (user: User | null) => void;

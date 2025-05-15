@@ -2,7 +2,7 @@ import styles from './BookingModal.module.scss';
 import dayjs, { Dayjs } from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import { useEffect, useState } from 'react';
-import { Booking, BookingServer, CreateBooking } from '../../types/Booking';
+import { BookingServer, CreateBooking } from '../../types/Booking';
 import { getData, postData } from '../../utils/fetchData';
 import { getCloseMenuIcon } from '../../utils/getImages';
 import { convertBookingToDayjs } from '../../utils/convertBookings';
@@ -33,7 +33,6 @@ export const BookingModal = ({
   const [startTime, setStartTime] = useState<Dayjs | null>(null);
   const [endTime, setEndTime] = useState<Dayjs | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [bookings, setBookings] = useState<Booking[]>([]);
   const [bookedStarts, setBookedStarts] = useState<Dayjs[]>([]);
   const [bookedEnds, setBookedEnds] = useState<Dayjs[]>([]);
   const [formError, setFormError] = useState<string>('');
@@ -49,7 +48,6 @@ export const BookingModal = ({
 
         if (Array.isArray(data) && data.length > 0) {
           const bookingsWithDayjs = data.map(convertBookingToDayjs);
-          setBookings(bookingsWithDayjs);
 
           const starts = bookingsWithDayjs.map((b) => b.startTime);
           const ends = bookingsWithDayjs.map((b) => b.endTime);
@@ -57,10 +55,10 @@ export const BookingModal = ({
           setBookedStarts(starts);
           setBookedEnds(ends);
         } else {
-          setError('No bookings found for the selected date and court');
+          console.info('No bookings found for the selected date and court');
         }
       } catch (err) {
-        setError('Не вдалося завантажити бронювання');
+        console.error('Не вдалося завантажити бронювання');
       }
     };
 
@@ -74,7 +72,7 @@ export const BookingModal = ({
       return response;
     } catch (error) {
       throw new Error(
-        error instanceof Error ? error.message : 'Не вдалося забронювати корт',
+        error instanceof Error ? error.message : 'Не вдалося забронювати корт. Спробуйте ще раз',
       );
     }
   };
@@ -82,14 +80,18 @@ export const BookingModal = ({
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     const now = dayjs();
-    
-    const bookingStart = startTime && dayjs(selectedDay)
-    .set('hour', dayjs(startTime).hour())
-    .set('minute', dayjs(startTime).minute());
 
-    const bookingEnd = endTime && dayjs(selectedDay)
-    .set('hour', dayjs(endTime).hour())
-    .set('minute', dayjs(endTime).minute());
+    const bookingStart =
+      startTime &&
+      dayjs(selectedDay)
+        .set('hour', dayjs(startTime).hour())
+        .set('minute', dayjs(startTime).minute());
+
+    const bookingEnd =
+      endTime &&
+      dayjs(selectedDay)
+        .set('hour', dayjs(endTime).hour())
+        .set('minute', dayjs(endTime).minute());
 
     switch (true) {
       case !startTime || !endTime:
@@ -104,7 +106,9 @@ export const BookingModal = ({
         setFormError('Неможливо забронювати на минулий час');
         return;
 
-      case bookingEnd && bookingStart && bookingEnd.diff(bookingStart, 'minute') < 60:
+      case bookingEnd &&
+        bookingStart &&
+        bookingEnd.diff(bookingStart, 'minute') < 60:
         setFormError('Тренування має тривати хоча б 1 годину');
         return;
     }
@@ -130,8 +134,6 @@ export const BookingModal = ({
         startTime: startDateTime,
         endTime: endDateTime,
       };
-
-      console.log(booking);
 
       await bookCourt(booking);
 
@@ -162,53 +164,60 @@ export const BookingModal = ({
         </button>
       </div>
 
-      <div className={styles.container}>
-        <h3 className={styles.title}>Бронювання</h3>
+      {error ? (
+        <p className={styles.description}>{error}</p>
+      ) : (
+        <div className={styles.container}>
+          <h3 className={styles.title}>Бронювання</h3>
 
-        <p className={styles.description}>
-          Забронювати корт на {dayjs(selectedDay).format('D MMMM YYYY')}
-        </p>
+          <p className={styles.description}>
+            Забронювати корт на {dayjs(selectedDay).format('D MMMM YYYY')}
+          </p>
 
-        <form className={styles.form} onSubmit={handleSubmit}>
-          <div className={styles.clockWrapper}>
-            <div className={styles.clock}>
-              <label>Початок:</label>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <StyledClock
-                  ampm={false}
-                  value={startTime}
-                  onChange={(newValue) => setStartTime(newValue)}
-                  minTime={dayjs().set('hour', 4).set('minute', 30)}
-                  maxTime={dayjs().set('hour', 22).set('minute', 30)}
-                  shouldDisableTime={disableStarts(bookedStarts, bookedEnds)}
-                />
-              </LocalizationProvider>
+          <form className={styles.form} onSubmit={handleSubmit}>
+            <div className={styles.clockWrapper}>
+              <div className={styles.clock}>
+                <label>Початок:</label>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <StyledClock
+                    ampm={false}
+                    value={startTime}
+                    onChange={(newValue) => setStartTime(newValue)}
+                    minTime={dayjs().set('hour', 4).set('minute', 30)}
+                    maxTime={dayjs().set('hour', 22).set('minute', 30)}
+                    shouldDisableTime={disableStarts(bookedStarts, bookedEnds)}
+                  />
+                </LocalizationProvider>
+              </div>
+
+              <div className={styles.clock}>
+                <label>Кінець:</label>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <StyledClock
+                    ampm={false}
+                    value={endTime}
+                    onChange={(newValue) => setEndTime(newValue)}
+                    minTime={dayjs().set('hour', 5).set('minute', 0)}
+                    maxTime={dayjs().set('hour', 23).set('minute', 0)}
+                    shouldDisableTime={disableEnds(bookedStarts, bookedEnds)}
+                  />
+                </LocalizationProvider>
+              </div>
             </div>
-            
-            <div className={styles.clock}>
-              <label>Кінець:</label>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <StyledClock
-                  ampm={false}
-                  value={endTime}
-                  onChange={(newValue) => setEndTime(newValue)}
-                  minTime={dayjs().set('hour', 5).set('minute', 0)}
-                  maxTime={dayjs().set('hour', 23).set('minute', 0)}
-                  shouldDisableTime={disableEnds(bookedStarts, bookedEnds)}
-                />
-              </LocalizationProvider>
+
+            <div className={styles.buttonWrapper}>
+              {formError && <p className={styles.formError}>{formError}</p>}
+
+              <button
+                className={styles.button}
+                disabled={!startTime && !endTime}
+              >
+                Підтвердити
+              </button>
             </div>
-          </div>
-          
-          <div className={styles.buttonWrapper}>
-            {formError && <p className={styles.formError}>{formError}</p>}
-            
-            <button className={styles.button} disabled={!startTime && !endTime}>
-              Підтвердити
-            </button>
-          </div>
-        </form>
-      </div>
+          </form>
+        </div>
+      )}
     </div>
   );
 };

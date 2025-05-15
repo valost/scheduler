@@ -1,10 +1,7 @@
 import { TimeView } from '@mui/x-date-pickers';
 import { Dayjs } from 'dayjs';
 
-export const disableStarts = (
-  bookedStarts: Dayjs[],
-  bookedEnds: Dayjs[],
-) => {
+export const disableStarts = (bookedStarts: Dayjs[], bookedEnds: Dayjs[]) => {
   return (value: Dayjs, view: TimeView) => {
     const hour = value.hour();
     const minute = value.minute();
@@ -46,11 +43,7 @@ export const disableStarts = (
   };
 };
 
-
-export const disableEnds = (
-  bookedStarts: Dayjs[],
-  bookedEnds: Dayjs[],
-) => {
+export const disableEnds = (bookedStarts: Dayjs[], bookedEnds: Dayjs[]) => {
   return (value: Dayjs, view: TimeView) => {
     const hour = value.hour();
     const minute = value.minute();
