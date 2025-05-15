@@ -36,7 +36,7 @@ export const CalendarPage = () => {
       const data = await getData<BookingServer[]>('/api/bookings');
       const allBookings = data.map(convertBookingToDayjs);
 
-    setBookings(allBookings); 
+      setBookings(allBookings);
     } catch (err) {
       console.error('Error fetching bookings:', err);
     }
@@ -77,9 +77,7 @@ export const CalendarPage = () => {
     : [];
 
   const selectedDate =
-    selectedDay !== null
-    ? currentMonth.date(selectedDay).endOf('day')
-    : null;
+    selectedDay !== null ? currentMonth.date(selectedDay).endOf('day') : null;
 
   const isPastSelectedDay =
     selectedDate !== null && selectedDate.isBefore(dayjs(), 'day');
@@ -92,17 +90,13 @@ export const CalendarPage = () => {
         setSelectedDay={setSelectedDay}
         currentMonth={currentMonth}
         setCurrentMonth={setCurrentMonth}
-        
       />
 
       <div className={styles.wrapper}>
         <h3 className={styles.bookTitle}>📍 {location.name}</h3>
 
         {selectedDay ? (
-          <BookingsTable 
-            bookings={filteredBookings} 
-            user={user} 
-          />
+          <BookingsTable bookings={filteredBookings} user={user} />
         ) : (
           <p className={styles.book}>Оберіть день для перегляду бронювань</p>
         )}

@@ -12,10 +12,10 @@ type Props = {
   setCurrentMonth: (month: dayjs.Dayjs) => void;
 };
 
-const Calendar = ({ 
+const Calendar = ({
   bookings,
-  selectedDay, 
-  setSelectedDay, 
+  selectedDay,
+  setSelectedDay,
   currentMonth,
   setCurrentMonth,
 }: Props) => {
@@ -28,14 +28,12 @@ const Calendar = ({
   const formattedDate = capitalizeFirstChar(currentMonth.format('MMMM YYYY'));
   const twoWeeksFromNow = today.add(14, 'day');
 
-  const relevantBookings = bookings.filter(
-    (b) => dayjs(b.startTime).isAfter(today, 'day')
+  const relevantBookings = bookings.filter((b) =>
+    dayjs(b.startTime).isAfter(today),
   );
-  const pastBookings = bookings.filter(
-    (b) => dayjs(b.startTime).isBefore(today, 'day')
+  const pastBookings = bookings.filter((b) =>
+    dayjs(b.startTime).isBefore(today, 'day'),
   );
-
-  console.log()
 
   const renderedDays = calendarDays.map((day, index) => {
     const dateObj = day ? currentMonth.date(day).endOf('day') : null;
@@ -58,7 +56,7 @@ const Calendar = ({
       pastBookings.some(
         (b) =>
           dayjs(b.startTime).date() === day &&
-          dayjs(b.startTime).isSame(currentMonth, 'month')
+          dayjs(b.startTime).isSame(currentMonth, 'month'),
       );
 
     const isToday =
@@ -90,7 +88,7 @@ const Calendar = ({
       index,
       className: dayClasses,
       isAfterTwoWeeks,
-      isPastDate
+      isPastDate,
     };
   });
 

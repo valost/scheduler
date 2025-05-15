@@ -120,7 +120,8 @@ export const RegisterPage = () => {
                 {...register('password', {
                   required: 'Будь ласка, введіть пароль',
                   validate: (value) =>
-                    value.length >= 6 || 'Пароль має бути щонайменше 6 символів довжиною',
+                    value.length >= 6 ||
+                    'Пароль має бути щонайменше 6 символів довжиною',
                 })}
               />
 

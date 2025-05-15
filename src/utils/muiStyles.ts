@@ -21,4 +21,3 @@ export const StyledClock = styled(DigitalClock)({
     borderRadius: '16px',
   },
 });
-

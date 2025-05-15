@@ -28,7 +28,7 @@
   flex-direction: column;
   gap: 10px;
 
-    @include mixins.on-desktop {
+  @include mixins.on-desktop {
     gap: 20px;
   }
 }
