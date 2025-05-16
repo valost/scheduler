@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import styles from './LoginPage.module.scss';
 import { PHONE_REGEX } from '../../utils/constants';
 import { useAuth } from '../../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
 type FormValues = {
@@ -43,6 +43,7 @@ export const LoginPage = () => {
   return (
     <div className={styles.page}>
       <div className={styles.container}>
+        
         <h3 className={styles.title}>Авторизація</h3>
 
         <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
@@ -51,13 +52,18 @@ export const LoginPage = () => {
               Номер телефону:
             </label>
 
-            <div className={styles.input}>
+            <div className={styles.phoneInputBig}>
               <span className={styles.span}>+380</span>
               <input
-                className={styles.phoneInput}
+                className={styles.phoneInputSmall}
                 type="tel"
                 id="phone"
                 maxLength={9}
+                onKeyDown={(e) => {
+                  if (!/[0-9]/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Tab') {
+                    e.preventDefault();
+                  }
+                }}
                 {...register('phone', {
                   required: 'Будь ласка, введіть номер телефону',
                   validate: (value) =>
@@ -97,6 +103,8 @@ export const LoginPage = () => {
             Підтвердити
           </button>
         </form>
+
+        <Link to='/reset-pass' className={styles.link}>Я не пам'ятаю свій пароль</Link>
 
         {notification && (
           <div className={styles.notification}>{notification}</div>

@@ -58,3 +58,19 @@ export function deleteData<T>(url: string): Promise<T> {
     throw new Error(`Failed to delete data at ${url}`);
   });
 }
+
+export function updateData<T>(url: string, data: unknown): Promise<T> {
+  return fetch(BASE_URL + url, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  }).then((response) => {
+    if (response.ok) {
+      return response.json();
+    }
+
+    throw new Error(`Failed to update data at ${url}`);
+  });
+}
