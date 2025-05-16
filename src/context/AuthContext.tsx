@@ -5,6 +5,7 @@ import {
   registerUserService,
   loginUserService,
   logoutUserService,
+  resetPasswordService,
 } from '../utils/authServices';
 
 type Props = {
@@ -23,6 +24,7 @@ type AuthContextType = {
   setUser: (user: User | null) => void;
   loginUser: (phone: string, password: string) => Promise<boolean>;
   logoutUser: () => void;
+  resetPassword: (phone: string, password: string) => Promise<boolean>;
 };
 
 const AuthContext = createContext<AuthContextType>({
@@ -30,6 +32,7 @@ const AuthContext = createContext<AuthContextType>({
   registerUser: async () => false,
   loginUser: async () => false,
   logoutUser: () => {},
+  resetPassword: async () => false,
   loading: false,
   error: '',
   setUser: () => {},
@@ -54,6 +57,10 @@ export const AuthProvider = ({ children }: Props) => {
     logoutUserService(setUser);
   };
 
+  const resetPassword = (phone: string, password: string) => {
+    return resetPasswordService(phone, password, setLoading, setError);
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -64,6 +71,7 @@ export const AuthProvider = ({ children }: Props) => {
         registerUser,
         loginUser,
         logoutUser,
+        resetPassword,
       }}
     >
       {children}

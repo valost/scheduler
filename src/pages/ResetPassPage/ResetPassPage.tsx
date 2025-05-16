@@ -1,18 +1,17 @@
 import { useForm } from 'react-hook-form';
-import styles from './RegisterPage.module.scss';
-import { useAuth } from '../../context/AuthContext';
-import { PHONE_REGEX } from '../../utils/constants';
-import { useNavigate } from 'react-router-dom';
+import styles from './ResetPassPage.module.scss';
 import { useState } from 'react';
+import { useAuth } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import { PHONE_REGEX } from '../../utils/constants';
 
 type FormValues = {
-  name: string;
   phone: string;
   password: string;
   repeatPassword: string;
 };
 
-export const RegisterPage = () => {
+export const ResetPassPage = () => {
   const {
     register,
     handleSubmit,
@@ -21,25 +20,24 @@ export const RegisterPage = () => {
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
-      name: '',
       phone: '',
       password: '',
       repeatPassword: '',
     },
   });
 
-  const { registerUser, error } = useAuth();
+  const { resetPassword, error } = useAuth();
   const navigate = useNavigate();
   const [notification, setNotification] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
 
   const onSubmit = async (data: FormValues) => {
     const preparedPhone = `+380${data.phone}`;
-    const success = await registerUser(data.name, preparedPhone, data.password);
+    const success = await resetPassword(preparedPhone, data.password);
 
     if (success) {
       setIsSuccess(true);
-      setNotification('Ви успішно зареєструвались!');
+      setNotification('Пароль успішно змінений');
     } else {
       setIsSuccess(false);
       setNotification(error || 'Щось пішло не так. Спробуйте ще раз.');
@@ -47,44 +45,16 @@ export const RegisterPage = () => {
     }
   };
 
-  const handleCancelClick = () => {
-    reset();
-    navigate('/');
-  };
-
   return (
     <div className={styles.page}>
       {!isSuccess && !notification && (
         <div className={styles.container}>
-          <h3 className={styles.title}>Реєстрація</h3>
+          <h3 className={styles.title}>Зміна паролю</h3>
 
           <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
             <div className={styles.inputContainer}>
-              <label className={styles.inputLabel} htmlFor="name">
-                Ваше ім'я:
-              </label>
-
-              <div className={styles.inputWrapper}>
-                <input
-                  className={styles.input}
-                  type="text"
-                  id="name"
-                  {...register('name', {
-                    required: "Будь ласка введіть ваше ім'я",
-                  })}
-                />
-              </div>
-
-              {errors.name && (
-                <span className={styles.errorMessage}>
-                  {errors.name.message}
-                </span>
-              )}
-            </div>
-
-            <div className={styles.inputContainer}>
               <label className={styles.inputLabel} htmlFor="phone">
-                Ваш номер телефону:
+                Твій номер телефону:
               </label>
 
               <div className={styles.phoneInputBig}>
@@ -113,10 +83,10 @@ export const RegisterPage = () => {
                 </span>
               )}
             </div>
-
+            
             <div className={styles.inputContainer}>
               <label className={styles.inputLabel} htmlFor="password">
-                Пароль:
+                Новий пароль:
               </label>
               <input
                 className={styles.input}
@@ -159,18 +129,9 @@ export const RegisterPage = () => {
               )}
             </div>
 
-            <div className={styles.buttonContainerBottom}>
-              <button type="submit" className={styles.button}>
-                Підтвердити
-              </button>
-
-              <button
-                onClick={handleCancelClick}
-                className={styles.buttonCancel}
-              >
-                Скасувати
-              </button>
-            </div>
+            <button type="submit" className={styles.button}>
+              Підтвердити
+            </button>
           </form>
         </div>
       )}
@@ -191,10 +152,10 @@ export const RegisterPage = () => {
               className={styles.button}
               onClick={() => {
                 setNotification('');
-                navigate('/register');
+                navigate('/reset-pass');
               }}
             >
-              Зареєструватися
+              Змінити пароль
             </button>
           )}
         </>

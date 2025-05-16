@@ -72,7 +72,9 @@ export const BookingModal = ({
       return response;
     } catch (error) {
       throw new Error(
-        error instanceof Error ? error.message : 'Не вдалося забронювати корт. Спробуйте ще раз',
+        error instanceof Error
+          ? error.message
+          : 'Не вдалося забронювати корт. Спробуйте ще раз',
       );
     }
   };

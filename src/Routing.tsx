@@ -5,6 +5,7 @@ import { UserPage } from './pages/UserPage/UserPage.tsx';
 import Layout from './pages/Layout/Layout.tsx';
 import { LoginPage } from './pages/LoginPage/LoginPage.tsx';
 import { RegisterPage } from './pages/RegisterPage/RegisterPage.tsx';
+import { ResetPassPage } from './pages/ResetPassPage/ResetPassPage.tsx';
 
 export const Routing = () => (
   <BrowserRouter basename="/scheduler">
@@ -16,6 +17,7 @@ export const Routing = () => (
           <Route path="user-account" element={<UserPage />} />
           <Route path="register" element={<RegisterPage />} />
           <Route path="login" element={<LoginPage />} />
+          <Route path="reset-pass" element={<ResetPassPage />} />
         </Route>
       </Route>
     </Routes>

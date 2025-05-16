@@ -5,14 +5,12 @@ import { Location } from '../../types/Location.ts';
 
 type Props = {
   location: Location;
-  // isAvailable: boolean;
   isWorking: boolean;
   onClick: () => void;
 };
 
 export const LocationCard = ({
   location,
-  // isAvailable,
   isWorking,
   onClick,
 }: Props) => {
@@ -20,15 +18,6 @@ export const LocationCard = ({
 
   return (
     <div className={styles.card}>
-      {/* <div
-        className={`${styles.badge} ${isAvailable ? styles.free : styles.booked}`}
-      >
-        <span className={styles.indicator}></span>
-        <span className={styles.text}>
-          {isAvailable ? 'Вільний' : 'Зайнятий'}
-        </span>
-      </div> */}
-
       <Link
         to={isWorking ? `/calendar/${_id}` : '#'}
         key={_id}

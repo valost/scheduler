@@ -1,5 +1,5 @@
 import { User } from '../types/User';
-import { postData } from './fetchData';
+import { postData, updateData } from './fetchData';
 
 export const registerUserService = async (
   name: string,
@@ -83,4 +83,38 @@ export const loginUserService = async (
 export const logoutUserService = (setUser: (user: User | null) => void) => {
   localStorage.removeItem('token');
   setUser(null);
+};
+
+export const resetPasswordService = async (
+  phone: string,
+  password: string,
+  setLoading: (loading: boolean) => void,
+  setError: (error: string) => void,
+): Promise<boolean> => {
+  setLoading(true);
+  setError('');
+
+  const payload = { phone, password };
+
+  try {
+    await updateData<{
+      phone: string;
+      password: string;
+    }>('/api/users/reset-password', payload);
+    setError('');
+
+    return true;
+  } catch (error) {
+    const err = error as Error;
+
+    if (err.message.includes('404')) {
+      setError('Цей номер не зареєстрований');
+    } else {
+      setError('Щось пішло не так. Спробуйте ще раз');
+    }
+
+    return false;
+  } finally {
+    setLoading(false);
+  }
 };
